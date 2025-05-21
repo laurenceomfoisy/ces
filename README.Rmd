@@ -1,0 +1,164 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# ces: Canadian Election Study Data Package
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The `ces` package provides easy access to Canadian Election Study (CES) datasets for analysis in R. The Canadian Election Study has been conducted during federal elections since 1965, providing valuable data for political scientists, researchers, and students studying Canadian politics and voting behavior.
+
+## Installation
+
+You can install the released version of ces from CRAN with:
+
+```r
+install.packages("ces")
+```
+
+And the development version from GitHub with:
+
+```r
+# install.packages("devtools")
+devtools::install_github("clessnverse/ces")
+```
+
+## Features
+
+- Easy access to CES datasets from various years (1965-2021)
+- Consistent data format across years
+- Simple filtering and subsetting functions
+- Automatic generation of variable codebooks
+- Complete preservation of variable metadata (labels, value labels)
+- Metadata examination tools
+- Export capabilities for sharing dataset documentation
+- Official PDF codebook downloads for all datasets
+
+## Basic Usage
+
+```{r eval=FALSE}
+library(ces)
+
+# See available datasets
+list_ces_datasets(details = TRUE)
+
+# Download 2019 CES data
+ces_2019 <- get_ces("2019")
+
+# Create a codebook
+codebook <- create_codebook(ces_2019)
+head(codebook)
+
+# Get subset of variables about voting behavior
+voting_data <- get_ces_subset("2019", variables = c("vote_choice", "turnout"))
+
+# Download the official codebook PDF
+download_pdf_codebook("2019")
+
+# Download a single dataset
+download_ces_dataset("2019", path = "~/CES_data")
+
+# Download all datasets at once
+download_all_ces_datasets(path = "~/CES_data")
+```
+
+## Example Analysis
+
+```{r eval=FALSE}
+library(ces)
+library(dplyr)
+library(ggplot2)
+
+# Get data
+ces_data <- get_ces("2019")
+
+# Create codebook to find variables
+codebook <- create_codebook(ces_data)
+
+# Find variables related to leader evaluations
+leader_vars <- codebook %>%
+  filter(grepl("leader|trudeau|scheer", question, ignore.case = TRUE)) %>%
+  pull(variable)
+
+# Get subset with these variables
+leader_data <- get_ces_subset("2019", variables = leader_vars)
+
+# Example plot (depending on actual variable names)
+if ("leader_rating_trudeau" %in% names(leader_data) && 
+    "leader_rating_scheer" %in% names(leader_data)) {
+  
+  # Basic comparison plot
+  leader_data %>%
+    select(leader_rating_trudeau, leader_rating_scheer) %>%
+    gather(key = "leader", value = "rating") %>%
+    ggplot(aes(x = rating, fill = leader)) +
+    geom_density(alpha = 0.5) +
+    labs(title = "Leader Rating Distributions",
+         x = "Rating", y = "Density") +
+    theme_minimal()
+}
+```
+
+## Available Datasets
+
+The package currently provides access to CES datasets from 1965 to 2021:
+
+```{r eval=FALSE}
+# List all datasets
+list_ces_datasets()
+
+# Get detailed information
+list_ces_datasets(details = TRUE)
+```
+
+## Working with Codebooks
+
+CES datasets contain many variables with complex coding. The `create_codebook()` function helps you understand these variables:
+
+```{r eval=FALSE}
+# Create and explore a codebook
+ces_data <- get_ces("2019")
+codebook <- create_codebook(ces_data)
+
+# Find all variables related to voting
+voting_vars <- dplyr::filter(codebook, grepl("vote|ballot", question, ignore.case = TRUE))
+
+# Export the codebook
+export_codebook(codebook, "ces_2019_codebook.csv")
+```
+
+## Acknowledgments and Disclaimers
+
+### Data Source
+This package accesses data from the [Borealis Data repository](https://borealisdata.ca/), which serves as the official host for the Canadian Election Study datasets. We gratefully acknowledge Borealis Data for maintaining and providing access to these valuable datasets.
+
+The package author is not affiliated with the Canadian Election Study or Borealis Data. Users of this package should properly cite the original Canadian Election Study data in their research publications.
+
+### Package Development
+This package was developed with assistance from Claude Sonnet 3.7, an AI assistant by Anthropic. Claude helped with structuring the package, writing documentation, and implementing the core functionality. The collaboration between the human author and AI demonstrates how these tools can be used to create helpful resources for the research community.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Citation
+
+If you use this package in your research, please cite it:
+
+```{r eval=FALSE}
+citation("ces")
+```
+
+Additionally, please cite the original Canadian Election Study data according to their citation guidelines.

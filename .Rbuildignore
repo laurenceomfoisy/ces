@@ -1,0 +1,18 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^data-raw$
+^\.github$
+^README\.Rmd$
+^codecov\.yml$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
+^cran-comments\.md$
+^doc$
+^Meta$
+^tools$
+# Configuration files
+^[.]travis[.]yml$
+^_pkgdown[.]yml$
+^CRAN-SUBMISSION$

@@ -1,0 +1,4 @@
+# Rinstignore file
+# Files listed here won't be copied to the install location
+# Do NOT list .notime here since we want it to be installed
+# to disable time checks

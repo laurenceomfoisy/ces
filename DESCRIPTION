@@ -1,0 +1,39 @@
+Package: ces
+Title: Access to Canadian Election Study Data
+Version: 0.1.0
+Authors@R: 
+    person(given = "Laurence-Olivier",
+           family = "M. Foisy",
+           role = c("aut", "cre"),
+           email = "mail@mfoisy.com",
+           comment = c(ORCID = "0009-0004-7505-9477"))
+Description: Provides tools to easily access and analyze Canadian Election Study data.
+    The package simplifies the process of downloading, cleaning, and using CES datasets
+    for political science research and analysis. The Canadian Election Study (CES)
+    has been conducted during federal elections since 1965, surveying Canadians
+    on their political preferences, engagement, and demographics. Data is accessed
+    from the Borealis Data repository <https://borealisdata.ca/>, which serves as 
+    the official host for CES datasets. This package is not officially affiliated 
+    with the Canadian Election Study or Borealis Data, and users should cite the 
+    original data sources in their work.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Suggests: 
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    openxlsx
+Config/testthat/edition: 3
+Imports:
+    dplyr,
+    haven,
+    tibble,
+    utils
+VignetteBuilder: knitr
+URL: https://github.com/clessnverse/ces
+BugReports: https://github.com/clessnverse/ces/issues
+Depends: 
+    R (>= 3.5)
+

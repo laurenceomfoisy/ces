@@ -1,0 +1,212 @@
+---
+title: "Introduction to the ces package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to the ces package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ces)
+```
+
+## Introduction
+
+The `ces` package provides easy access to Canadian Election Study (CES) data, simplifying the process of downloading, cleaning, and analyzing these datasets in R. The CES has been conducted during federal elections since 1965, providing valuable insight into Canadian political behavior, attitudes, and preferences.
+
+## Available Datasets
+
+The package currently provides access to CES datasets spanning from 1965 to 2021:
+
+```{r}
+# List all available datasets
+list_ces_datasets()
+
+# Get detailed information about available datasets
+list_ces_datasets(details = TRUE)
+```
+
+## Getting Data
+
+### Basic Usage
+
+The primary function for accessing CES data is `get_ces()`, which downloads and processes the dataset for a specified year:
+
+```{r eval=FALSE}
+# Get the 2019 CES data
+ces_2019 <- get_ces("2019")
+
+# View the first few rows
+head(ces_2019)
+
+# Get information about the dataset
+dim(ces_2019)
+```
+
+### Customizing Data Retrieval
+
+The `get_ces()` function offers several options for customizing how data is retrieved and processed:
+
+```{r eval=FALSE}
+# Get raw (uncleaned) data
+ces_raw <- get_ces("2019", clean = FALSE)
+
+# Get data as a data.frame instead of a tibble
+ces_df <- get_ces("2019", format = "data.frame")
+
+# Bypass cache and download fresh data
+ces_fresh <- get_ces("2019", use_cache = FALSE)
+
+# Disable metadata preservation if needed (not recommended)
+ces_without_metadata <- get_ces("2019", preserve_metadata = FALSE)
+
+# Silent mode - no progress messages
+ces_silent <- get_ces("2019", verbose = FALSE)
+```
+
+#### Working with Variable Metadata
+
+CES datasets contain rich metadata including question text and value labels. The package preserves this metadata, which you can access:
+
+```{r eval=FALSE}
+# All metadata is preserved by default
+ces_data <- get_ces("2019")
+
+# Access variable label (question text)
+attr(ces_data$vote_choice, "label")
+
+# Access value labels
+attr(ces_data$vote_choice, "labels")
+
+# See all attributes of a variable
+attributes(ces_data$vote_choice)
+```
+
+You can also examine metadata across the entire dataset with the `examine_metadata()` function:
+
+```{r eval=FALSE}
+# Get an overview of all variables with metadata
+metadata_summary <- examine_metadata(ces_data)
+
+# Show the first few entries
+head(metadata_summary)
+
+# Find variables with value labels about voting
+voting_metadata <- examine_metadata(ces_data, 
+                                  show_labels = TRUE,
+                                  variable_pattern = "vote")
+```
+
+## Working with Subsets of Variables
+
+For many analyses, you may only need a subset of variables. The `get_ces_subset()` function allows you to select specific variables:
+
+```{r eval=FALSE}
+# Get a subset of variables by name
+variables <- c("vote_choice", "age", "gender", "province", "education")
+ces_subset <- get_ces_subset("2019", variables)
+
+# Get all variables containing "vote" in their name (using regex)
+vote_vars <- get_ces_subset("2019", "vote", regex = TRUE)
+```
+
+## Understanding Variables with Codebooks
+
+CES datasets contain many variables with complex coding schemes. The `create_codebook()` function helps you understand these variables:
+
+```{r eval=FALSE}
+# Get 2019 data
+ces_2019 <- get_ces("2019")
+
+# Create a codebook
+codebook <- create_codebook(ces_2019)
+
+# View the first few entries
+head(codebook)
+
+# Find variables about a specific topic
+library(dplyr)
+voting_vars <- codebook %>%
+  filter(grepl("vote|voted", question, ignore.case = TRUE)) %>%
+  pull(variable)
+
+# Use these variables in your analysis
+voting_data <- get_ces_subset("2019", variables = voting_vars)
+```
+
+You can export the codebook to a CSV or Excel file:
+
+```{r eval=FALSE}
+# Export to CSV 
+export_codebook(codebook, "ces_2019_codebook.csv")
+
+# Export to Excel (requires openxlsx package)
+export_codebook(codebook, "ces_2019_codebook.xlsx")
+```
+
+You can also download the official PDF codebook documents:
+
+```{r eval=FALSE}
+# Download the official CES codebook PDF
+download_pdf_codebook("2019")
+
+# Download to a specific folder
+download_pdf_codebook("2015", path = "~/Documents/CES_codebooks")
+```
+
+The package also allows downloading the raw data files directly:
+
+```{r eval=FALSE}
+# Download a single CES dataset
+download_ces_dataset("2019", path = "~/Documents/CES_datasets")
+
+# Download all available CES datasets to a folder
+download_all_ces_datasets(path = "~/Documents/CES_datasets")
+
+# Download only specific years
+download_all_ces_datasets(years = c("2015", "2019", "2021"))
+```
+
+## Example Analysis
+
+Here's a simple example of how to use the package to analyze voting patterns:
+
+```{r eval=FALSE}
+# Get 2019 data
+ces_2019 <- get_ces("2019")
+
+# Table of vote choice by province
+if (requireNamespace("dplyr", quietly = TRUE)) {
+  library(dplyr)
+  
+  # Create a table of vote choice by province
+  vote_by_province <- ces_2019 %>%
+    group_by(province, vote_choice) %>%
+    summarize(count = n(), .groups = "drop") %>%
+    pivot_wider(names_from = vote_choice, values_from = count, values_fill = 0)
+  
+  print(vote_by_province)
+}
+```
+
+## Conclusion
+
+The `ces` package aims to make working with Canadian Election Study data more accessible to R users. By handling the downloading, storage, and initial processing of these datasets, researchers can focus on analysis rather than data wrangling.
+
+For more information about the Canadian Election Study, visit the official website or refer to the dataset documentation.
+
+## Acknowledgments
+
+This package accesses data from the [Borealis Data repository](https://borealisdata.ca/), which serves as the official host for the Canadian Election Study datasets. We gratefully acknowledge Borealis Data for maintaining and providing access to these valuable datasets.
+
+**Important Disclaimer**: This package is not officially affiliated with the Canadian Election Study or Borealis Data. Users of this package should properly cite the original Canadian Election Study data in their research publications according to the citation guidelines provided by the CES.
+
+The package was developed with assistance from Claude Sonnet 3.7, an AI assistant by Anthropic, demonstrating how these tools can be used to create helpful resources for the research community.

@@ -1,0 +1,24 @@
+citHeader("To cite the ces package in publications use:")
+
+citEntry(
+  entry    = "Manual",
+  title    = "ces: Access to Canadian Election Study Data",
+  author   = "Laurence-Olivier M. Foisy",
+  year     = "2025",
+  note     = "R package version 0.1.0. Developed with assistance from Claude Sonnet 3.7 AI.",
+  url      = "https://github.com/clessnverse/ces",
+  textVersion = paste(
+    "M. Foisy, L.-O. (2025).",
+    "ces: Access to Canadian Election Study Data.",
+    "R package version 0.1.0.",
+    "Developed with assistance from Claude Sonnet 3.7 AI.",
+    "https://github.com/clessnverse/ces"
+  )
+)
+
+citFooter(paste("\nIMPORTANT: The ces package accesses data from the Borealis Data repository.",
+  "When using data obtained through this package, please also cite the original",
+  "Canadian Election Study data according to their citation guidelines.",
+  "\n",
+  "The package author is not affiliated with the Canadian Election Study or Borealis Data.",
+  sep = "\n"))
