@@ -1,7 +1,7 @@
 citHeader("To cite the ces package in publications use:")
 
-citEntry(
-  entry    = "Manual",
+bibentry(
+  bibtype  = "Manual",
   title    = "ces: Access to Canadian Election Study Data",
   author   = "Laurence-Olivier M. Foisy",
   year     = "2025",
