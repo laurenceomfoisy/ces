@@ -14,7 +14,7 @@ And the development version from GitHub with:
 
 ```r
 # install.packages("devtools")
-devtools::install_github("clessnverse/ces")
+devtools::install_github("laurenceomfoisy/ces")
 ```
 
 ## Example

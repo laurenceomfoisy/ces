@@ -7,6 +7,8 @@ Authors@R:
            role = c("aut", "cre"),
            email = "mail@mfoisy.com",
            comment = c(ORCID = "0009-0004-7505-9477"))
+Author: Laurence-Olivier M. Foisy [aut, cre] (<https://orcid.org/0009-0004-7505-9477>)
+Maintainer: Laurence-Olivier M. Foisy <mail@mfoisy.com>
 Description: Provides tools to easily access and analyze Canadian Election Study data.
     The package simplifies the process of downloading, cleaning, and using CES datasets
     for political science research and analysis. The Canadian Election Study (CES)
@@ -32,8 +34,8 @@ Imports:
     tibble,
     utils
 VignetteBuilder: knitr
-URL: https://github.com/clessnverse/ces
-BugReports: https://github.com/clessnverse/ces/issues
+URL: https://github.com/laurenceomfoisy/ces
+BugReports: https://github.com/laurenceomfoisy/ces/issues
 Depends: 
     R (>= 3.5)
 

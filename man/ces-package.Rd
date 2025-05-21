@@ -39,8 +39,8 @@ For more information about the Canadian Election Study, visit:
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/clessnverse/ces}
-  \item Report bugs at \url{https://github.com/clessnverse/ces/issues}
+  \item \url{https://github.com/laurenceomfoisy/ces}
+  \item Report bugs at \url{https://github.com/laurenceomfoisy/ces/issues}
 }
 
 }
