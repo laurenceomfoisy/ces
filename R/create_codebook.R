@@ -13,7 +13,7 @@
 #'   variable name, question label, and response options.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Get the 2019 CES data
 #' ces_2019 <- get_ces("2019")
 #'

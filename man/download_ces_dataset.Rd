@@ -12,8 +12,8 @@ Available years include "1965", "1968", "1974-1980", "1984", "1988", "1993",
 "1997", "2000", "2004", "2006", "2008", "2011", "2015", "2019", "2021".}
 
 \item{path}{A character string indicating the directory where the dataset should
-be saved. If NULL (default), the dataset will be saved to the current
-working directory.}
+be saved. If NULL (default), the dataset will be saved to the Downloads
+directory if available, otherwise to a temporary directory.}
 
 \item{overwrite}{Logical indicating whether to overwrite existing files.
 Default is FALSE.}
@@ -31,15 +31,15 @@ where the format extension corresponds to the original dataset format (e.g., .sa
 .dta for Stata).
 }
 \examples{
-\dontrun{
-# Download the 2019 CES dataset to the current directory
-download_ces_dataset("2019")
+\donttest{
+# Download the 2019 CES dataset to a temporary directory
+download_ces_dataset("2019", path = tempdir())
 
 # Download to a specific directory
-download_ces_dataset("2015", path = "~/Documents/CES_data")
+download_ces_dataset("2015", path = tempdir())
 
 # Overwrite existing file
-download_ces_dataset("2021", overwrite = TRUE)
+download_ces_dataset("2021", path = tempdir(), overwrite = TRUE)
 }
 
 }

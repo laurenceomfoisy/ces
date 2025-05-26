@@ -50,15 +50,15 @@ Official PDF codebooks for each CES year are available via the
 about variables, question wording, and methodology.
 }
 \examples{
-\dontrun{
+\donttest{
 # Get the 2019 CES data
 ces_2019 <- get_ces("2019")
 
 # Get the 1993 CES data, unprocessed
 ces_1993_raw <- get_ces("1993", clean = FALSE)
 
-# Download the official codebook
-download_pdf_codebook("2019")
+# Download the official codebook to temporary directory
+download_pdf_codebook("2019", path = tempdir())
 }
 
 }

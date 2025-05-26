@@ -12,8 +12,8 @@ Available years include "1965", "1968", "1974-1980", "1984", "1988", "1993",
 "1997", "2000", "2004", "2006", "2008", "2011", "2015", "2019", "2021".}
 
 \item{path}{A character string indicating the directory where the codebook should
-be saved. If NULL (default), the codebook will be saved to the current
-working directory.}
+be saved. If NULL (default), the codebook will be saved to the Downloads
+directory if available, otherwise to a temporary directory.}
 
 \item{overwrite}{Logical indicating whether to overwrite existing files.
 Default is FALSE.}
@@ -30,15 +30,15 @@ Election Study. The codebook contains detailed information about all variables,
 question wording, response codes, and methodological details.
 }
 \examples{
-\dontrun{
-# Download the 2019 CES codebook to the current directory
-download_pdf_codebook("2019")
+\donttest{
+# Download the 2019 CES codebook to a temporary directory
+download_pdf_codebook("2019", path = tempdir())
 
-# Download to a specific directory
-download_pdf_codebook("2015", path = "~/Documents/CES_codebooks")
+# Download to a temporary directory
+download_pdf_codebook("2015", path = tempdir())
 
 # Overwrite existing file
-download_pdf_codebook("2021", overwrite = TRUE)
+download_pdf_codebook("2021", path = tempdir(), overwrite = TRUE)
 }
 
 }

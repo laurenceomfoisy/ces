@@ -13,8 +13,8 @@ download_all_ces_datasets(
 }
 \arguments{
 \item{path}{A character string indicating the directory where the datasets should
-be saved. If NULL (default), the datasets will be saved to the current
-working directory.}
+be saved. If NULL (default), the datasets will be saved to the Downloads
+directory if available, otherwise to a temporary directory.}
 
 \item{years}{Optional character vector specifying which years to download.
 If NULL (default), all available years will be downloaded.}
@@ -35,18 +35,15 @@ where the format extension corresponds to the original dataset format (e.g., .sa
 .dta for Stata).
 }
 \examples{
-\dontrun{
-# Download all CES datasets to the current directory
-download_all_ces_datasets()
+\donttest{
+# Download all CES datasets to a temporary directory
+download_all_ces_datasets(path = tempdir())
 
 # Download only specific years
-download_all_ces_datasets(years = c("2015", "2019", "2021"))
+download_all_ces_datasets(years = c("2015", "2019", "2021"), path = tempdir())
 
-# Download to a specific directory
-download_all_ces_datasets(path = "~/Documents/CES_data")
-
-# Overwrite existing files
-download_all_ces_datasets(overwrite = TRUE)
+# Download to a temporary directory with overwrite
+download_all_ces_datasets(path = tempdir(), overwrite = TRUE)
 }
 
 }

@@ -38,7 +38,7 @@ This function allows users to get a specific subset of variables from a CES data
 It's useful for selecting only the variables of interest for a specific analysis.
 }
 \examples{
-\dontrun{
+\donttest{
 # Get only vote choice and demographic variables from 2019
 variables <- c("vote_choice", "age", "gender", "province", "education")
 ces_subset <- get_ces_subset("2019", variables)

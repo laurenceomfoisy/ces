@@ -22,7 +22,7 @@ This function provides an overview of the metadata available in a CES dataset,
 showing which variables have labels, value labels, and other attributes.
 }
 \examples{
-\dontrun{
+\donttest{
 # Get CES data with preserved metadata
 ces_2019 <- get_ces("2019", preserve_metadata = TRUE)
 

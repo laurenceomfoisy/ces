@@ -79,9 +79,9 @@ get_download_dir <- function() {
     downloads <- file.path(Sys.getenv("HOME"), "Downloads")
   }
   
-  # If the Downloads directory doesn't exist, use current directory
+  # If the Downloads directory doesn't exist, use temporary directory
   if (!dir.exists(downloads)) {
-    downloads <- getwd()
+    downloads <- tempdir()
   }
   
   return(downloads)

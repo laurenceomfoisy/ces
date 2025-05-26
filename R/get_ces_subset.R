@@ -17,7 +17,7 @@
 #' @return A tibble or data.frame containing the requested CES data variables.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Get only vote choice and demographic variables from 2019
 #' variables <- c("vote_choice", "age", "gender", "province", "education")
 #' ces_subset <- get_ces_subset("2019", variables)

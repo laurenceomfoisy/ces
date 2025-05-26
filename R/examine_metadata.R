@@ -11,7 +11,7 @@
 #' @return A data.frame with metadata information for each variable.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Get CES data with preserved metadata
 #' ces_2019 <- get_ces("2019", preserve_metadata = TRUE)
 #'

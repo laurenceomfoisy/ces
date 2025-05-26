@@ -6,8 +6,8 @@
 #' .dta for Stata).
 #'
 #' @param path A character string indicating the directory where the datasets should
-#'   be saved. If NULL (default), the datasets will be saved to the current
-#'   working directory.
+#'   be saved. If NULL (default), the datasets will be saved to the Downloads
+#'   directory if available, otherwise to a temporary directory.
 #' @param years Optional character vector specifying which years to download. 
 #'   If NULL (default), all available years will be downloaded.
 #' @param overwrite Logical indicating whether to overwrite existing files.
@@ -18,18 +18,15 @@
 #' @return Invisibly returns a character vector with the file paths of the downloaded datasets.
 #'
 #' @examples
-#' \dontrun{
-#' # Download all CES datasets to the current directory
-#' download_all_ces_datasets()
+#' \donttest{
+#' # Download all CES datasets to a temporary directory
+#' download_all_ces_datasets(path = tempdir())
 #'
 #' # Download only specific years
-#' download_all_ces_datasets(years = c("2015", "2019", "2021"))
+#' download_all_ces_datasets(years = c("2015", "2019", "2021"), path = tempdir())
 #'
-#' # Download to a specific directory
-#' download_all_ces_datasets(path = "~/Documents/CES_data")
-#' 
-#' # Overwrite existing files
-#' download_all_ces_datasets(overwrite = TRUE)
+#' # Download to a temporary directory with overwrite
+#' download_all_ces_datasets(path = tempdir(), overwrite = TRUE)
 #' }
 #'
 #' @export
@@ -39,9 +36,9 @@ download_all_ces_datasets <- function(path = NULL, years = NULL, overwrite = FAL
     if (verbose) message(text)
   }
   
-  # If path is NULL, use current directory
+  # If path is NULL, use Downloads directory if available, otherwise tempdir
   if (is.null(path)) {
-    path <- getwd()
+    path <- get_download_dir()
   }
   
   # Normalize the path and create directory if needed
