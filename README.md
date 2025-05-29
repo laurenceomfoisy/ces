@@ -1,5 +1,7 @@
 # ces: Canadian Election Study Data Package
 
+[![CRAN status](https://www.r-pkg.org/badges/version/ces)](https://CRAN.R-project.org/package=ces)
+
 This R package provides easy access to Canadian Election Study (CES) datasets for analysis in R.
 
 ## Installation
