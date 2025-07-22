@@ -153,12 +153,21 @@ get_ces <- function(year, variant = NULL, format = "tibble", language = "en", cl
     
     # Use read options to preserve all metadata
     if (dataset_info$format == "stata") {
-      data <- haven::read_dta(temp_file, 
-                              encoding = dataset_info$encoding,
-                              col_select = NULL,  # Include all columns
-                              skip = 0,           # Don't skip any rows
-                              n_max = Inf,        # Read all rows
-                              .name_repair = "unique")  # Ensure unique names
+      # Handle encoding parameter - "default" means let haven auto-detect
+      if (dataset_info$encoding == "default") {
+        data <- haven::read_dta(temp_file, 
+                                col_select = NULL,  # Include all columns
+                                skip = 0,           # Don't skip any rows
+                                n_max = Inf,        # Read all rows
+                                .name_repair = "unique")  # Ensure unique names
+      } else {
+        data <- haven::read_dta(temp_file, 
+                                encoding = dataset_info$encoding,
+                                col_select = NULL,  # Include all columns
+                                skip = 0,           # Don't skip any rows
+                                n_max = Inf,        # Read all rows
+                                .name_repair = "unique")  # Ensure unique names
+      }
     } else {
       # Default to SPSS format
       if (dataset_info$encoding == "default") {
@@ -221,6 +230,13 @@ get_ces <- function(year, variant = NULL, format = "tibble", language = "en", cl
   }
   
   msg(paste0("CES ", year, " (", variant, ") dataset ready for use"))
+  
+  # Display citation information
+  if (verbose && !is.null(dataset_info$citation) && dataset_info$citation != "") {
+    cat("\n" , rep("=", 80), "\n", sep = "")
+    cat(dataset_info$citation)
+    cat("\n", rep("=", 80), "\n\n", sep = "")
+  }
   
   return(data)
 }
