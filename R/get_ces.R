@@ -3,8 +3,12 @@
 #' This function downloads and processes a Canadian Election Study dataset for the specified year.
 #'
 #' @param year A character string indicating the year of the CES data. 
-#'   Available years include "1965", "1968", "1974-1980", "1984", "1988", "1993", 
+#'   Available years include "1965", "1968", "1972", "1974", "1974-1980", "1984", "1988", "1993", 
 #'   "1997", "2000", "2004", "2006", "2008", "2011", "2015", "2019", "2021".
+#' @param variant A character string indicating the survey variant to download.
+#'   Options depend on the year: "survey" (default for most years), "web" (default for 2015, 2019), 
+#'   "phone", "combo", "panel", "jnjl", "sep", "nov". Use \code{\link{list_ces_datasets}} to see 
+#'   available variants for each year.
 #' @param format A character string indicating the format to return the data in. 
 #'   Default is "tibble". Options include "tibble", "data.frame", or "raw".
 #' @param language A character string indicating the language of the survey questions.
@@ -27,23 +31,47 @@
 #'
 #' @examples
 #' \donttest{
-#' # Get the 2019 CES data
-#' ces_2019 <- get_ces("2019")
+#' # Get the 2019 CES web survey data (default)
+#' ces_2019_web <- get_ces("2019")
+#' 
+#' # Get the 2019 CES phone survey data
+#' ces_2019_phone <- get_ces("2019", variant = "phone")
 #'
 #' # Get the 1993 CES data, unprocessed
 #' ces_1993_raw <- get_ces("1993", clean = FALSE)
+#'
+#' # Get 1972 September survey
+#' ces_1972_sep <- get_ces("1972", variant = "sep")
 #'
 #' # Download the official codebook to temporary directory
 #' download_pdf_codebook("2019", path = tempdir())
 #' }
 #'
 #' @export
-get_ces <- function(year, format = "tibble", language = "en", clean = TRUE, preserve_metadata = TRUE, use_cache = TRUE, verbose = TRUE) {
+get_ces <- function(year, variant = NULL, format = "tibble", language = "en", clean = TRUE, preserve_metadata = TRUE, use_cache = TRUE, verbose = TRUE) {
   # Input validation
-  valid_years <- ces_datasets$year
+  valid_years <- unique(ces_datasets$year)
   
   if (!year %in% valid_years) {
-    stop("Invalid year. Available years are: ", paste(valid_years, collapse = ", "))
+    stop("Invalid year. Available years are: ", paste(sort(valid_years), collapse = ", "))
+  }
+  
+  # Determine default variant based on year
+  if (is.null(variant)) {
+    if (year %in% c("2015", "2019")) {
+      variant <- "web"
+    } else {
+      # For years with multiple variants, get the first one (usually the main one)
+      available_variants <- ces_datasets$variant[ces_datasets$year == year]
+      variant <- available_variants[1]
+    }
+  }
+  
+  # Validate variant for the given year
+  available_variants <- ces_datasets$variant[ces_datasets$year == year]
+  if (!variant %in% available_variants) {
+    stop("Invalid variant '", variant, "' for year ", year, 
+         ". Available variants are: ", paste(available_variants, collapse = ", "))
   }
   
   valid_formats <- c("tibble", "data.frame", "raw")
@@ -56,10 +84,10 @@ get_ces <- function(year, format = "tibble", language = "en", clean = TRUE, pres
   }
   
   # Get dataset information
-  dataset_info <- ces_datasets[ces_datasets$year == year, ]
+  dataset_info <- ces_datasets[ces_datasets$year == year & ces_datasets$variant == variant, ]
   
   if (nrow(dataset_info) == 0) {
-    stop("Could not find information for year: ", year)
+    stop("Could not find information for year: ", year, " and variant: ", variant)
   }
   
   # Check if data is already cached
@@ -68,7 +96,8 @@ get_ces <- function(year, format = "tibble", language = "en", clean = TRUE, pres
     dir.create(cache_dir, recursive = TRUE)
   }
   
-  cache_file <- file.path(cache_dir, paste0("ces_", year, ".rds"))
+  # Include variant in cache filename to handle multiple variants per year
+  cache_file <- file.path(cache_dir, paste0("ces_", year, "_", variant, ".rds"))
   
   # Create a helper function for conditional messaging
   msg <- function(text) {
@@ -76,23 +105,44 @@ get_ces <- function(year, format = "tibble", language = "en", clean = TRUE, pres
   }
   
   if (use_cache && file.exists(cache_file)) {
-    msg(paste0("Using cached version of CES ", year, " data"))
+    msg(paste0("Using cached version of CES ", year, " (", variant, ") data"))
     data <- readRDS(cache_file)
     msg("Cached data loaded successfully")
   } else {
     # Download the data with optional verbosity
-    msg(paste0("Downloading CES ", year, " data from ", dataset_info$url))
-    temp_file <- tempfile(fileext = ".dat")
+    msg(paste0("Downloading CES ", year, " (", variant, ") data from ", dataset_info$url))
     
-    # Show download progress based on verbose setting
-    utils::download.file(
-      url = dataset_info$url, 
-      destfile = temp_file, 
-      mode = "wb", 
-      quiet = !verbose,  # Show download progress if verbose
-      method = NULL,     # Auto-select the best method
-      cacheOK = FALSE    # Don't use cached version of file
-    )
+    # Handle ZIP files vs direct files
+    if (dataset_info$is_zip) {
+      # Determine file extension based on format
+      file_ext <- switch(dataset_info$format,
+                         "spss" = "sav",
+                         "stata" = "dta",
+                         "unknown")
+      
+      temp_file <- tempfile(fileext = paste0(".", file_ext))
+      
+      # Extract data file from ZIP
+      extract_data_from_zip(
+        url = dataset_info$url,
+        destfile = temp_file,
+        expected_format = dataset_info$format,
+        quiet = !verbose
+      )
+    } else {
+      # Direct download (non-ZIP)
+      temp_file <- tempfile(fileext = ".dat")
+      
+      # Show download progress based on verbose setting
+      utils::download.file(
+        url = dataset_info$url, 
+        destfile = temp_file, 
+        mode = "wb", 
+        quiet = !verbose,  # Show download progress if verbose
+        method = NULL,     # Auto-select the best method
+        cacheOK = FALSE    # Don't use cached version of file
+      )
+    }
     
     msg("Download complete. Processing data...")
     
@@ -170,7 +220,7 @@ get_ces <- function(year, format = "tibble", language = "en", clean = TRUE, pres
     data <- as.data.frame(data)
   }
   
-  msg(paste0("CES ", year, " dataset ready for use"))
+  msg(paste0("CES ", year, " (", variant, ") dataset ready for use"))
   
   return(data)
 }

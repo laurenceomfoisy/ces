@@ -4,6 +4,10 @@
 #' It's useful for selecting only the variables of interest for a specific analysis.
 #'
 #' @param year A character string indicating the year of the CES data.
+#' @param variant A character string indicating the survey variant to download.
+#'   Options depend on the year: "survey" (default for most years), "web" (default for 2015, 2019), 
+#'   "phone", "combo", "panel", "jnjl", "sep", "nov". Use \code{\link{list_ces_datasets}} to see 
+#'   available variants for each year.
 #' @param variables A character vector of variable names to select from the dataset.
 #'   If NULL (default), all variables are returned.
 #' @param regex A logical indicating whether to use regex matching for variable names.
@@ -18,19 +22,22 @@
 #'
 #' @examples
 #' \donttest{
-#' # Get only vote choice and demographic variables from 2019
+#' # Get only vote choice and demographic variables from 2019 web survey
 #' variables <- c("vote_choice", "age", "gender", "province", "education")
-#' ces_subset <- get_ces_subset("2019", variables)
+#' ces_subset <- get_ces_subset("2019", variables = variables)
+#'
+#' # Get subset from 2019 phone survey  
+#' ces_subset_phone <- get_ces_subset("2019", variant = "phone", variables = variables)
 #'
 #' # Get all variables containing "vote" in their name (using regex)
-#' vote_vars <- get_ces_subset("2019", "vote", regex = TRUE)
+#' vote_vars <- get_ces_subset("2019", variables = "vote", regex = TRUE)
 #' }
 #'
 #' @export
-get_ces_subset <- function(year, variables = NULL, regex = FALSE,
+get_ces_subset <- function(year, variant = NULL, variables = NULL, regex = FALSE,
                            format = "tibble", clean = TRUE, use_cache = TRUE) {
   # Get the full dataset
-  data <- get_ces(year, format = "tibble", clean = clean, use_cache = use_cache)
+  data <- get_ces(year, variant = variant, format = "tibble", clean = clean, use_cache = use_cache)
   
   # If no variables are specified, return the full dataset
   if (is.null(variables)) {

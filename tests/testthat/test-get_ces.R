@@ -7,6 +7,12 @@ test_that("get_ces validates inputs correctly", {
   
   # Test that invalid language throws error
   expect_error(get_ces("2019", language = "invalid"), "Invalid language")
+  
+  # Test that invalid variant throws error
+  expect_error(get_ces("2019", variant = "invalid"), "Invalid variant")
+  
+  # Test that invalid variant for specific year throws error
+  expect_error(get_ces("1965", variant = "phone"), "Invalid variant")
 })
 
 # To test actual data retrieval, we need a mock

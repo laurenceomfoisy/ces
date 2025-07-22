@@ -159,3 +159,88 @@ check_file_conflict <- function(file_path, overwrite = FALSE) {
   }
   return(TRUE)
 }
+
+#' Extract data file from ZIP archive
+#'
+#' This function downloads a ZIP file, extracts only the data file (.dta or .sav),
+#' and cleans up the ZIP file and any non-data files (PDFs, etc.).
+#'
+#' @param url URL to download the ZIP file from
+#' @param destfile Final destination path for the extracted data file
+#' @param expected_format Expected format of the data file ("spss" or "stata")
+#' @param quiet Logical indicating whether to show progress
+#' @return Path to the extracted data file
+#' @keywords internal
+extract_data_from_zip <- function(url, destfile, expected_format, quiet = FALSE) {
+  msg <- function(text) {
+    if (!quiet) message(text)
+  }
+  
+  # Create a temporary file for the ZIP download
+  temp_zip <- tempfile(fileext = ".zip")
+  temp_extract_dir <- tempfile(pattern = "ces_extract_")
+  
+  # Ensure cleanup on exit
+  on.exit({
+    # Clean up temporary files
+    if (file.exists(temp_zip)) unlink(temp_zip)
+    if (dir.exists(temp_extract_dir)) unlink(temp_extract_dir, recursive = TRUE)
+  }, add = TRUE)
+  
+  # Download the ZIP file
+  msg("Downloading ZIP file...")
+  safe_download(url = url, destfile = temp_zip, mode = "wb", quiet = quiet)
+  
+  # Create extraction directory
+  dir.create(temp_extract_dir, recursive = TRUE)
+  
+  # Extract the ZIP file
+  msg("Extracting ZIP file...")
+  tryCatch({
+    utils::unzip(temp_zip, exdir = temp_extract_dir, junkpaths = TRUE)
+  }, error = function(e) {
+    stop("Failed to extract ZIP file: ", e$message)
+  })
+  
+  # Find the data file based on expected format
+  extracted_files <- list.files(temp_extract_dir, full.names = TRUE, recursive = TRUE)
+  
+  if (expected_format == "spss") {
+    data_files <- extracted_files[grepl("\\.sav$", extracted_files, ignore.case = TRUE)]
+  } else if (expected_format == "stata") {
+    data_files <- extracted_files[grepl("\\.dta$", extracted_files, ignore.case = TRUE)]
+  } else {
+    stop("Unknown format: ", expected_format)
+  }
+  
+  if (length(data_files) == 0) {
+    stop("No ", toupper(expected_format), " data file found in ZIP archive")
+  }
+  
+  if (length(data_files) > 1) {
+    # If multiple files, try to find the main one (usually the largest)
+    file_sizes <- file.size(data_files)
+    data_file <- data_files[which.max(file_sizes)]
+    msg(paste("Multiple data files found, using largest:", basename(data_file)))
+  } else {
+    data_file <- data_files[1]
+  }
+  
+  # Ensure destination directory exists
+  dest_dir <- dirname(destfile)
+  if (!dir.exists(dest_dir)) {
+    safe_dir_create(dest_dir, recursive = TRUE, verbose = !quiet)
+  }
+  
+  # Copy the data file to final destination
+  msg(paste("Copying data file to:", destfile))
+  file.copy(data_file, destfile, overwrite = TRUE)
+  
+  # Verify the file was copied successfully
+  if (!file.exists(destfile) || file.size(destfile) == 0) {
+    stop("Failed to copy extracted data file to destination")
+  }
+  
+  msg("ZIP extraction complete, temporary files cleaned up")
+  return(destfile)
+}

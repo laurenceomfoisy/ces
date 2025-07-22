@@ -1,13 +1,17 @@
 #' Download a Canadian Election Study Dataset
 #'
 #' This function downloads a single Canadian Election Study dataset for a specified year.
-#' The dataset is saved with a standardized filename in the format of `ces_<year>.<format>`,
+#' The dataset is saved with a standardized filename in the format of `ces_<year>_<variant>.<format>`,
 #' where the format extension corresponds to the original dataset format (e.g., .sav for SPSS, 
 #' .dta for Stata).
 #'
 #' @param year A character string indicating the year of the CES data to download. 
-#'   Available years include "1965", "1968", "1974-1980", "1984", "1988", "1993", 
+#'   Available years include "1965", "1968", "1972", "1974", "1974-1980", "1984", "1988", "1993", 
 #'   "1997", "2000", "2004", "2006", "2008", "2011", "2015", "2019", "2021".
+#' @param variant A character string indicating the survey variant to download.
+#'   Options depend on the year: "survey" (default for most years), "web" (default for 2015, 2019), 
+#'   "phone", "combo", "panel", "jnjl", "sep", "nov". Use \code{\link{list_ces_datasets}} to see 
+#'   available variants for each year.
 #' @param path A character string indicating the directory where the dataset should
 #'   be saved. If NULL (default), the dataset will be saved to the Downloads
 #'   directory if available, otherwise to a temporary directory.
@@ -20,27 +24,48 @@
 #'
 #' @examples
 #' \donttest{
-#' # Download the 2019 CES dataset to a temporary directory
+#' # Download the 2019 CES web survey dataset to a temporary directory
 #' download_ces_dataset("2019", path = tempdir())
 #'
-#' # Download to a specific directory
-#' download_ces_dataset("2015", path = tempdir())
+#' # Download the 2019 phone survey to a specific directory
+#' download_ces_dataset("2019", variant = "phone", path = tempdir())
+#' 
+#' # Download 1972 September survey
+#' download_ces_dataset("1972", variant = "sep", path = tempdir())
 #' 
 #' # Overwrite existing file
 #' download_ces_dataset("2021", path = tempdir(), overwrite = TRUE)
 #' }
 #'
 #' @export
-download_ces_dataset <- function(year, path = NULL, overwrite = FALSE, verbose = TRUE) {
+download_ces_dataset <- function(year, variant = NULL, path = NULL, overwrite = FALSE, verbose = TRUE) {
   # Create a helper function for conditional messaging
   msg <- function(text) {
     if (verbose) message(text)
   }
   
   # Input validation
-  valid_years <- ces_datasets$year
+  valid_years <- unique(ces_datasets$year)
   if (!year %in% valid_years) {
-    stop("Invalid year. Available years are: ", paste(valid_years, collapse = ", "))
+    stop("Invalid year. Available years are: ", paste(sort(valid_years), collapse = ", "))
+  }
+  
+  # Determine default variant based on year
+  if (is.null(variant)) {
+    if (year %in% c("2015", "2019")) {
+      variant <- "web"
+    } else {
+      # For years with multiple variants, get the first one (usually the main one)
+      available_variants <- ces_datasets$variant[ces_datasets$year == year]
+      variant <- available_variants[1]
+    }
+  }
+  
+  # Validate variant for the given year
+  available_variants <- ces_datasets$variant[ces_datasets$year == year]
+  if (!variant %in% available_variants) {
+    stop("Invalid variant '", variant, "' for year ", year, 
+         ". Available variants are: ", paste(available_variants, collapse = ", "))
   }
   
   # If path is NULL, use Downloads directory if available, otherwise tempdir
@@ -57,10 +82,10 @@ download_ces_dataset <- function(year, path = NULL, overwrite = FALSE, verbose =
   }
   
   # Get dataset information from internal data
-  dataset_info <- ces_datasets[ces_datasets$year == year, ]
+  dataset_info <- ces_datasets[ces_datasets$year == year & ces_datasets$variant == variant, ]
   
   if (nrow(dataset_info) == 0) {
-    stop("Could not find information for year: ", year)
+    stop("Could not find information for year: ", year, " and variant: ", variant)
   }
   
   # Get the dataset URL and format
@@ -73,25 +98,36 @@ download_ces_dataset <- function(year, path = NULL, overwrite = FALSE, verbose =
                      "stata" = "dta",
                      "unknown")
   
-  # Define the full file path
-  file_name <- paste0("ces_", year, ".", file_ext)
+  # Define the full file path with variant in filename
+  file_name <- paste0("ces_", year, "_", variant, ".", file_ext)
   file_path <- file.path(path, file_name)
   
   # Check if file already exists and handle overwrite settings
   check_file_conflict(file_path, overwrite)
   
   # Download the dataset
-  msg(paste0("Downloading CES ", year, " dataset from ", url))
+  msg(paste0("Downloading CES ", year, " (", variant, ") dataset from ", url))
   msg(paste0("Saving to: ", file_path))
   
   # Use our safe download function with proper error handling
   tryCatch({
-    safe_download(
-      url = url,
-      destfile = file_path,
-      mode = "wb",       # Binary mode for data files
-      quiet = !verbose   # Show progress based on verbose setting
-    )
+    if (dataset_info$is_zip) {
+      # Extract data file from ZIP
+      extract_data_from_zip(
+        url = url,
+        destfile = file_path,
+        expected_format = format,
+        quiet = !verbose
+      )
+    } else {
+      # Direct download (non-ZIP)
+      safe_download(
+        url = url,
+        destfile = file_path,
+        mode = "wb",       # Binary mode for data files
+        quiet = !verbose   # Show progress based on verbose setting
+      )
+    }
     
     msg(paste0("Successfully downloaded dataset to: ", file_path))
     

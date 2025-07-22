@@ -32,23 +32,31 @@
 #' @export
 download_pdf_codebook <- function(year, path = NULL, overwrite = FALSE, verbose = TRUE) {
   # Input validation
-  valid_years <- c("1965", "1968", "1974-1980", "1984", "1988", "1993", 
-                   "1997", "2000", "2004", "2006", "2008", "2011", 
-                   "2015", "2019", "2021")
+  valid_years <- unique(ces_datasets$year)
   
   if (!year %in% valid_years) {
-    stop("Invalid year. Available years are: ", paste(valid_years, collapse = ", "))
+    stop("Invalid year. Available years are: ", paste(sort(valid_years), collapse = ", "))
   }
   
   # Get dataset information from internal data
-  dataset_info <- ces_datasets[ces_datasets$year == year, ]
+  # For codebooks, we usually have one per year, so we get the first entry for the year
+  # that has a non-empty codebook URL
+  year_datasets <- ces_datasets[ces_datasets$year == year, ]
   
-  if (nrow(dataset_info) == 0) {
+  if (nrow(year_datasets) == 0) {
     stop("Could not find information for year: ", year)
   }
   
-  # Get the codebook URL for the requested year
-  codebook_url <- dataset_info$codebook_url
+  # Find the first dataset with a non-empty codebook URL
+  codebook_urls <- year_datasets$codebook_url
+  non_empty_urls <- codebook_urls[codebook_urls != "" & !is.na(codebook_urls)]
+  
+  if (length(non_empty_urls) == 0) {
+    stop("No codebook is available for year: ", year)
+  }
+  
+  # Use the first available codebook URL
+  codebook_url <- non_empty_urls[1]
   
   # If path is NULL, use Downloads directory if available, otherwise tempdir
   if (is.null(path)) {

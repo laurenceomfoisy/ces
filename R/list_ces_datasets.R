@@ -1,38 +1,30 @@
 #' List Available Canadian Election Study Datasets
 #'
-#' This function returns information about available CES datasets that can be
-#' accessed through the package.
+#' This function returns a formatted catalog of all available CES datasets that can be
+#' accessed through the package, showing year, variant, type, and description.
 #'
-#' @param details Logical indicating whether to return detailed information
-#'   about each dataset. Default is FALSE.
-#'
-#' @return If details is FALSE, a character vector of available dataset years.
-#'   If TRUE, a tibble with columns for year, type, and description.
+#' @return A tibble with columns for year, variant, type, and description showing
+#'   all available dataset combinations.
 #'
 #' @examples
-#' # Get list of available years
+#' # Get formatted catalog of all available datasets
 #' list_ces_datasets()
 #'
-#' # Get detailed information
-#' list_ces_datasets(details = TRUE)
-#'
 #' @export
-list_ces_datasets <- function(details = FALSE) {
-  # Basic list of available years
-  years <- ces_datasets$year
-  
-  if (!details) {
-    return(years)
-  }
-  
-  # Create a tibble with details about each dataset
+list_ces_datasets <- function() {
+  # Create a formatted tibble with all dataset information
   if (!requireNamespace("tibble", quietly = TRUE)) {
-    warning("Package 'tibble' is required for detailed output. Returning year vector instead.")
-    return(years)
+    # Fallback if tibble is not available
+    result <- ces_datasets[, c("year", "variant", "type", "description")]
+    class(result) <- "data.frame"
+    return(result)
   }
   
-  # Return selected columns from the internal dataset
-  result <- ces_datasets[, c("year", "type", "description")]
+  # Return selected columns from the internal dataset as a tibble
+  result <- tibble::as_tibble(ces_datasets[, c("year", "variant", "type", "description")])
+  
+  # Sort by year and variant for better readability
+  result <- result[order(result$year, result$variant), ]
   
   return(result)
 }
