@@ -39,11 +39,11 @@ The following issues from the previous CRAN review have been addressed:
 
 This package provides tools for accessing and analyzing Canadian Election Study (CES) datasets. The CES has been conducted during federal elections since 1965, providing valuable data for political science research.
 
-The package handles downloading data files from the Borealis Data repository, converts them to appropriate R formats, and provides utilities for subsetting and analyzing the data.
+The package handles downloading data files from multiple sources (primarily the Borealis Data repository and the official Canadian Election Study website), converts them to appropriate R formats, and provides utilities for subsetting and analyzing the data.
 
 ## URL Stability and Network Access
 
-* All data is hosted at Borealis Data repository, a stable institutional repository for Canadian research data
+* Data is hosted at stable institutional repositories (Borealis Data repository and the official CES website)
 * All functions that require internet access use appropriate error handling
 * All examples requiring network access are properly wrapped in \donttest{}
 * The package includes caching mechanisms to reduce unnecessary downloads

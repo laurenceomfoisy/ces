@@ -16,9 +16,11 @@ bibentry(
   )
 )
 
-citFooter(paste("\nIMPORTANT: The ces package accesses data from the Borealis Data repository.",
+citFooter(paste("\nIMPORTANT: The ces package accesses data from multiple sources including",
+  "the Borealis Data repository and the official Canadian Election Study website.",
   "When using data obtained through this package, please also cite the original",
   "Canadian Election Study data according to their citation guidelines.",
   "\n",
-  "The package author is not affiliated with the Canadian Election Study or Borealis Data.",
+  "The package author is not affiliated with the Canadian Election Study, Borealis Data,",
+  "or the University of British Columbia.",
   sep = "\n"))
