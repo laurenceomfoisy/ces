@@ -78,7 +78,7 @@ ces_datasets <- tibble(
     "spss", # 2011
     "spss", # 2015 web
     "stata", # 2015 phone (contains .dta file)
-    "spss", # 2015 combo
+    "stata", # 2015 combo
     "spss", # 2019 web
     "stata", # 2019 phone (contains .dta file)
     "stata"  # 2021 web
