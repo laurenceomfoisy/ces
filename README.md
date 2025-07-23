@@ -86,7 +86,7 @@ The package author is not affiliated with the Canadian Election Study or Boreali
 We thank Paul A. Hodgetts and Rohan Alexander for their original [cesR package](https://hodgettsp.github.io/cesR/) that provided R access to Canadian Election Study data.
 
 ### Package Development
-This package was developed with assistance from Claude Sonnet 3.7 and 4.0, AI assistants by Anthropic. Claude helped with structuring the package, writing documentation, and implementing the core functionality.
+This package was developed with assistance from Claude Sonnet 3.7 and 4.0 (Anthropic) and Google Jules, AI assistants that helped with structuring the package, writing documentation, and implementing the core functionality.
 
 ### Contributing and Feature Requests
 Feel free to contact the package author about adding new features or if you have additional CES datasets you would like to see included in the package.
