@@ -6,6 +6,7 @@
 \usage{
 get_ces(
   year,
+  variant = NULL,
   format = "tibble",
   language = "en",
   clean = TRUE,
@@ -16,8 +17,13 @@ get_ces(
 }
 \arguments{
 \item{year}{A character string indicating the year of the CES data.
-Available years include "1965", "1968", "1974-1980", "1984", "1988", "1993",
+Available years include "1965", "1968", "1972", "1974", "1984", "1988", "1993",
 "1997", "2000", "2004", "2006", "2008", "2011", "2015", "2019", "2021".}
+
+\item{variant}{A character string indicating the survey variant to download.
+Options depend on the year: "single_survey" (default for most years), "web" (default for 2015, 2019),
+"phone", "combo", "1974_1980", "jnjl", "sep", "nov". Use \code{\link{list_ces_datasets}} to see
+available variants for each year.}
 
 \item{format}{A character string indicating the format to return the data in.
 Default is "tibble". Options include "tibble", "data.frame", or "raw".}
@@ -51,11 +57,17 @@ about variables, question wording, and methodology.
 }
 \examples{
 \donttest{
-# Get the 2019 CES data
-ces_2019 <- get_ces("2019")
+# Get the 2019 CES web survey data (default)
+ces_2019_web <- get_ces("2019")
+
+# Get the 2019 CES phone survey data
+ces_2019_phone <- get_ces("2019", variant = "phone")
 
 # Get the 1993 CES data, unprocessed
 ces_1993_raw <- get_ces("1993", clean = FALSE)
+
+# Get 1972 September survey
+ces_1972_sep <- get_ces("1972", variant = "sep")
 
 # Download the official codebook to temporary directory
 download_pdf_codebook("2019", path = tempdir())

@@ -7,6 +7,7 @@
 download_all_ces_datasets(
   path = NULL,
   years = NULL,
+  variants = NULL,
   overwrite = FALSE,
   verbose = TRUE
 )
@@ -19,6 +20,9 @@ directory if available, otherwise to a temporary directory.}
 \item{years}{Optional character vector specifying which years to download.
 If NULL (default), all available years will be downloaded.}
 
+\item{variants}{Optional character vector specifying which variants to download.
+If NULL (default), all available variants will be downloaded.}
+
 \item{overwrite}{Logical indicating whether to overwrite existing files.
 Default is FALSE.}
 
@@ -30,17 +34,21 @@ Invisibly returns a character vector with the file paths of the downloaded datas
 }
 \description{
 This function downloads all available Canadian Election Study datasets to a specified directory.
-Each dataset is saved with a standardized filename in the format of \verb{ces_<year>.<format>},
+Each dataset is saved with a standardized filename in the format of \verb{ces_<year>_<variant>.<format>},
 where the format extension corresponds to the original dataset format (e.g., .sav for SPSS,
-.dta for Stata).
+.dta for Stata). For ZIP archives, only the data files are extracted and saved, with all other
+files (PDFs, etc.) discarded.
 }
 \examples{
 \donttest{
 # Download all CES datasets to a temporary directory
 download_all_ces_datasets(path = tempdir())
 
-# Download only specific years
+# Download only specific years (all variants for those years)
 download_all_ces_datasets(years = c("2015", "2019", "2021"), path = tempdir())
+
+# Download only web surveys for 2015 and 2019
+download_all_ces_datasets(years = c("2015", "2019"), variants = "web", path = tempdir())
 
 # Download to a temporary directory with overwrite
 download_all_ces_datasets(path = tempdir(), overwrite = TRUE)

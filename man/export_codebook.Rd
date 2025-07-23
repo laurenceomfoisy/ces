@@ -21,7 +21,7 @@ Invisibly returns the file path where the codebook was saved.
 This function exports a CES codebook to a CSV or Excel file for easier viewing and sharing.
 }
 \examples{
-\dontrun{
+\donttest{
 # Get data and create codebook
 ces_data <- get_ces("2019")
 codebook <- create_codebook(ces_data)

@@ -4,12 +4,22 @@
 \alias{download_pdf_codebook}
 \title{Download Canadian Election Study PDF Codebook}
 \usage{
-download_pdf_codebook(year, path = NULL, overwrite = FALSE, verbose = TRUE)
+download_pdf_codebook(
+  year,
+  variant = NULL,
+  path = NULL,
+  overwrite = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{year}{A character string indicating the year of the CES data.
-Available years include "1965", "1968", "1974-1980", "1984", "1988", "1993",
+Available years include "1965", "1968", "1972", "1974", "1984", "1988", "1993",
 "1997", "2000", "2004", "2006", "2008", "2011", "2015", "2019", "2021".}
+
+\item{variant}{A character string indicating the survey variant to download.
+For years with multiple variants (1972, 2015, 2019), this specifies which one to use.
+If NULL (default), uses the first available variant for the year.}
 
 \item{path}{A character string indicating the directory where the codebook should
 be saved. If NULL (default), the codebook will be saved to the Downloads
@@ -31,11 +41,14 @@ question wording, response codes, and methodological details.
 }
 \examples{
 \donttest{
-# Download the 2019 CES codebook to a temporary directory
+# Download the 2019 CES codebook to a temporary directory (defaults to web variant)
 download_pdf_codebook("2019", path = tempdir())
 
-# Download to a temporary directory
-download_pdf_codebook("2015", path = tempdir())
+# Download the 2019 phone survey codebook
+download_pdf_codebook("2019", variant = "phone", path = tempdir())
+
+# Download the 1972 September survey codebook
+download_pdf_codebook("1972", variant = "sep", path = tempdir())
 
 # Overwrite existing file
 download_pdf_codebook("2021", path = tempdir(), overwrite = TRUE)

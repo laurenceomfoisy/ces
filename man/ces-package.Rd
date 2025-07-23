@@ -25,11 +25,13 @@ on their political preferences, engagement, and demographics.
 }
 }
 
-\section{Data Source}{
+\section{Data Sources}{
 
-Data is accessed from the Borealis Data repository, which serves as the official host
-for CES datasets. This package is not officially affiliated with the Canadian Election
-Study or Borealis Data, and users should cite the original data sources in their work.
+Data is accessed from multiple sources including the Borealis Data repository (the primary
+institutional repository for most CES datasets) and the official Canadian Election Study
+website. This package is not officially affiliated with the Canadian Election Study,
+Borealis Data, or the University of British Columbia, and users should cite the original
+data sources in their work.
 }
 
 \references{

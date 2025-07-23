@@ -6,6 +6,7 @@
 \usage{
 get_ces_subset(
   year,
+  variant = NULL,
   variables = NULL,
   regex = FALSE,
   format = "tibble",
@@ -15,6 +16,11 @@ get_ces_subset(
 }
 \arguments{
 \item{year}{A character string indicating the year of the CES data.}
+
+\item{variant}{A character string indicating the survey variant to download.
+Options depend on the year: "single_survey" (default for most years), "web" (default for 2015, 2019),
+"phone", "combo", "1974_1980", "jnjl", "sep", "nov". Use \code{\link{list_ces_datasets}} to see
+available variants for each year.}
 
 \item{variables}{A character vector of variable names to select from the dataset.
 If NULL (default), all variables are returned.}
@@ -39,12 +45,15 @@ It's useful for selecting only the variables of interest for a specific analysis
 }
 \examples{
 \donttest{
-# Get only vote choice and demographic variables from 2019
+# Get only vote choice and demographic variables from 2019 web survey
 variables <- c("vote_choice", "age", "gender", "province", "education")
-ces_subset <- get_ces_subset("2019", variables)
+ces_subset <- get_ces_subset("2019", variables = variables)
+
+# Get subset from 2019 phone survey  
+ces_subset_phone <- get_ces_subset("2019", variant = "phone", variables = variables)
 
 # Get all variables containing "vote" in their name (using regex)
-vote_vars <- get_ces_subset("2019", "vote", regex = TRUE)
+vote_vars <- get_ces_subset("2019", variables = "vote", regex = TRUE)
 }
 
 }

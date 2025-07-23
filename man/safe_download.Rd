@@ -4,7 +4,14 @@
 \alias{safe_download}
 \title{Safe file download with platform-specific handling}
 \usage{
-safe_download(url, destfile, mode = "wb", quiet = FALSE, timeout = 600)
+safe_download(
+  url,
+  destfile,
+  mode = "wb",
+  quiet = FALSE,
+  timeout = 600,
+  max_retries = 3
+)
 }
 \arguments{
 \item{url}{URL to download from}
@@ -16,6 +23,8 @@ safe_download(url, destfile, mode = "wb", quiet = FALSE, timeout = 600)
 \item{quiet}{Logical indicating whether to show progress}
 
 \item{timeout}{Timeout in seconds}
+
+\item{max_retries}{Maximum number of retry attempts}
 }
 \value{
 0 if successful, error code otherwise

@@ -6,7 +6,7 @@
 #' .dta for Stata).
 #'
 #' @param year A character string indicating the year of the CES data to download. 
-#'   Available years include "1965", "1968", "1972", "1974", "1974-1980", "1984", "1988", "1993", 
+#'   Available years include "1965", "1968", "1972", "1974", "1984", "1988", "1993", 
 #'   "1997", "2000", "2004", "2006", "2008", "2011", "2015", "2019", "2021".
 #' @param variant A character string indicating the survey variant to download.
 #'   Options depend on the year: "single_survey" (default for most years), "web" (default for 2015, 2019), 

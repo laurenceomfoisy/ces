@@ -1,36 +1,38 @@
 test_that("list_ces_datasets returns expected structure with variants", {
-  # Test the function returns a data frame with variants
+  # Test the function returns a data frame with year and variants columns
   datasets <- list_ces_datasets()
   expect_true(is.data.frame(datasets))
   expect_true("year" %in% names(datasets))
-  expect_true("variant" %in% names(datasets))
-  expect_true("type" %in% names(datasets))
-  expect_true("description" %in% names(datasets))
+  expect_true("variants" %in% names(datasets))
   
   # Test that important years are present
-  years <- unique(datasets$year)
+  years <- datasets$year
   expect_true("2019" %in% years)
   expect_true("2015" %in% years)
   expect_true("2021" %in% years)
   expect_true("1972" %in% years)
   expect_true("1974" %in% years)
   
-  # Test that variants exist for 2015 and 2019
-  datasets_2015 <- datasets[datasets$year == "2015", ]
-  expect_true("web" %in% datasets_2015$variant)
-  expect_true("phone" %in% datasets_2015$variant)
-  expect_true("combo" %in% datasets_2015$variant)
+  # Test that variants exist for 2015 and 2019 (comma-separated format)
+  variants_2015 <- datasets[datasets$year == "2015", "variants"]
+  expect_true(grepl("web", variants_2015))
+  expect_true(grepl("phone", variants_2015))
+  expect_true(grepl("combo", variants_2015))
   
-  datasets_2019 <- datasets[datasets$year == "2019", ]
-  expect_true("web" %in% datasets_2019$variant)
-  expect_true("phone" %in% datasets_2019$variant)
+  variants_2019 <- datasets[datasets$year == "2019", "variants"]
+  expect_true(grepl("web", variants_2019))
+  expect_true(grepl("phone", variants_2019))
   
-  # Test that 1972 has multiple variants
-  datasets_1972 <- datasets[datasets$year == "1972", ]
-  expect_true(nrow(datasets_1972) == 3) # jnjl, sep, nov
-  expect_true("jnjl" %in% datasets_1972$variant)
-  expect_true("sep" %in% datasets_1972$variant)
-  expect_true("nov" %in% datasets_1972$variant)
+  # Test that 1972 has multiple variants (comma-separated)
+  variants_1972 <- datasets[datasets$year == "1972", "variants"]
+  expect_true(grepl("jnjl", variants_1972))
+  expect_true(grepl("sep", variants_1972))
+  expect_true(grepl("nov", variants_1972))
+  
+  # Test that 1974 has both single_survey and 1974_1980 variants
+  variants_1974 <- datasets[datasets$year == "1974", "variants"]
+  expect_true(grepl("single_survey", variants_1974))
+  expect_true(grepl("1974_1980", variants_1974))
 })
 
 test_that("get_ces_subset validates inputs correctly", {

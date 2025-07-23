@@ -120,7 +120,7 @@ create_codebook <- function(data, include_values = TRUE, format = "tibble") {
 #' @return Invisibly returns the file path where the codebook was saved.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Get data and create codebook
 #' ces_data <- get_ces("2019")
 #' codebook <- create_codebook(ces_data)

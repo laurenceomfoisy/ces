@@ -4,12 +4,23 @@
 \alias{download_ces_dataset}
 \title{Download a Canadian Election Study Dataset}
 \usage{
-download_ces_dataset(year, path = NULL, overwrite = FALSE, verbose = TRUE)
+download_ces_dataset(
+  year,
+  variant = NULL,
+  path = NULL,
+  overwrite = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{year}{A character string indicating the year of the CES data to download.
-Available years include "1965", "1968", "1974-1980", "1984", "1988", "1993",
+Available years include "1965", "1968", "1972", "1974", "1984", "1988", "1993",
 "1997", "2000", "2004", "2006", "2008", "2011", "2015", "2019", "2021".}
+
+\item{variant}{A character string indicating the survey variant to download.
+Options depend on the year: "single_survey" (default for most years), "web" (default for 2015, 2019),
+"phone", "combo", "1974_1980", "jnjl", "sep", "nov". Use \code{\link{list_ces_datasets}} to see
+available variants for each year.}
 
 \item{path}{A character string indicating the directory where the dataset should
 be saved. If NULL (default), the dataset will be saved to the Downloads
@@ -26,17 +37,20 @@ Invisibly returns the file path of the downloaded dataset.
 }
 \description{
 This function downloads a single Canadian Election Study dataset for a specified year.
-The dataset is saved with a standardized filename in the format of \verb{ces_<year>.<format>},
+The dataset is saved with a standardized filename in the format of \verb{ces_<year>_<variant>.<format>},
 where the format extension corresponds to the original dataset format (e.g., .sav for SPSS,
 .dta for Stata).
 }
 \examples{
 \donttest{
-# Download the 2019 CES dataset to a temporary directory
+# Download the 2019 CES web survey dataset to a temporary directory
 download_ces_dataset("2019", path = tempdir())
 
-# Download to a specific directory
-download_ces_dataset("2015", path = tempdir())
+# Download the 2019 phone survey to a specific directory
+download_ces_dataset("2019", variant = "phone", path = tempdir())
+
+# Download 1972 September survey
+download_ces_dataset("1972", variant = "sep", path = tempdir())
 
 # Overwrite existing file
 download_ces_dataset("2021", path = tempdir(), overwrite = TRUE)

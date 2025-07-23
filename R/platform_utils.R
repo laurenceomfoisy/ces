@@ -94,9 +94,10 @@ get_download_dir <- function() {
 #' @param mode "wb" for binary, "w" for text
 #' @param quiet Logical indicating whether to show progress
 #' @param timeout Timeout in seconds
+#' @param max_retries Maximum number of retry attempts
 #' @return 0 if successful, error code otherwise
 #' @keywords internal
-safe_download <- function(url, destfile, mode = "wb", quiet = FALSE, timeout = 600) {
+safe_download <- function(url, destfile, mode = "wb", quiet = FALSE, timeout = 600, max_retries = 3) {
   # Normalize the destination path
   destfile <- normalize_path(destfile, must_work = FALSE)
   
@@ -111,25 +112,44 @@ safe_download <- function(url, destfile, mode = "wb", quiet = FALSE, timeout = 6
   on.exit(options(timeout = old_timeout))
   options(timeout = timeout)
   
-  # Download with proper error handling
-  result <- tryCatch({
-    utils::download.file(
-      url = url,
-      destfile = destfile,
-      mode = mode,
-      quiet = quiet,
-      method = NULL  # Let R choose the best method for the platform
-    )
-  }, error = function(e) {
-    # Handle common errors with helpful messages
-    if (grepl("timed out", e$message, ignore.case = TRUE)) {
-      stop("Download timed out. Try increasing the timeout or check your internet connection.")
-    } else if (grepl("could not resolve host", e$message, ignore.case = TRUE)) {
-      stop("Could not resolve host. Check your internet connection and URL.")
-    } else {
-      stop("Download failed: ", e$message)
+  # Try download with retries
+  for (attempt in 1:max_retries) {
+    result <- tryCatch({
+      if (attempt > 1 && !quiet) {
+        message("Retry attempt ", attempt, " of ", max_retries)
+      }
+      
+      utils::download.file(
+        url = url,
+        destfile = destfile,
+        mode = mode,
+        quiet = quiet,
+        method = NULL  # Let R choose the best method for the platform
+      )
+    }, error = function(e) {
+      if (attempt == max_retries) {
+        # Handle common errors with helpful messages on final attempt
+        if (grepl("timed out", e$message, ignore.case = TRUE)) {
+          stop("Download timed out after ", max_retries, " attempts. Try increasing the timeout or check your internet connection.")
+        } else if (grepl("could not resolve host", e$message, ignore.case = TRUE)) {
+          stop("Could not resolve host. Check your internet connection and URL.")
+        } else {
+          stop("Download failed after ", max_retries, " attempts: ", e$message)
+        }
+      } else {
+        # Return error for retry logic
+        return(1)
+      }
+    })
+    
+    # If successful (result == 0), break out of retry loop
+    if (is.numeric(result) && result == 0) {
+      break
+    } else if (attempt < max_retries) {
+      # Wait before retry (exponential backoff)
+      Sys.sleep(2^attempt)
     }
-  })
+  }
   
   # Verify download
   if (!file.exists(destfile) || file.size(destfile) == 0) {

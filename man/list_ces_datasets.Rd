@@ -4,25 +4,19 @@
 \alias{list_ces_datasets}
 \title{List Available Canadian Election Study Datasets}
 \usage{
-list_ces_datasets(details = FALSE)
-}
-\arguments{
-\item{details}{Logical indicating whether to return detailed information
-about each dataset. Default is FALSE.}
+list_ces_datasets()
 }
 \value{
-If details is FALSE, a character vector of available dataset years.
-If TRUE, a tibble with columns for year, type, and description.
+Invisibly returns a tibble with columns for year and variants.
+The catalog is printed to the console for easy viewing.
 }
 \description{
-This function returns information about available CES datasets that can be
-accessed through the package.
+This function displays a formatted catalog of all available CES datasets that can be
+accessed through the package, showing year and available variants.
+One row per year with variants listed as comma-separated values.
 }
 \examples{
-# Get list of available years
+# Display catalog of all available datasets by year
 list_ces_datasets()
-
-# Get detailed information
-list_ces_datasets(details = TRUE)
 
 }
