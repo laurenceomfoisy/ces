@@ -145,7 +145,7 @@ export_codebook(codebook, "ces_2019_codebook.csv")
 This package accesses Canadian Election Study data from multiple sources:
 
 - **[Borealis Data repository](https://borealisdata.ca/)** - the primary institutional repository hosting most CES datasets
-- **[Canadian Election Study website](https://ces-eec.sites.olt.ubc.ca/)** - the official CES project website hosting additional datasets
+- **[Canadian Election Study website](https://ces-eec.arts.ubc.ca/)** - the official CES project website hosting additional datasets
 
 We gratefully acknowledge both Borealis Data and the Canadian Election Study team for maintaining and providing access to these valuable datasets.
 

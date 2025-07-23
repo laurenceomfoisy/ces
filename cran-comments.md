@@ -12,7 +12,7 @@ This is a major release (v1.0.0) of the ces package with significant new feature
 1 warning | 2 notes
 
 * **WARNING**: 'qpdf' not available for PDF size reduction (development environment issue, not package issue)
-* **NOTE**: URL redirect from ces-eec.sites.olt.ubc.ca to ces-eec.arts.ubc.ca (updated in this submission)
+* **NOTE**: URL redirect from ces-eec.sites.olt.ubc.ca to ces-eec.arts.ubc.ca (fixed in this submission)
 * **NOTE**: HTML Tidy not available (development environment issue, not package issue)
 
 All core functionality passes checks. The warning and notes are development environment issues, not package problems.

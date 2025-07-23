@@ -29,8 +29,8 @@ ces_datasets <- tibble(
     "https://borealisdata.ca/api/access/datafile/563439", # 2008
     "https://borealisdata.ca/api/access/datafile/563961", # 2011
     "https://borealisdata.ca/api/access/datafile/563704", # 2015 web
-    "https://ces-eec.sites.olt.ubc.ca/files/2018/08/CES2015-phone-Stata.zip", # 2015 phone
-    "https://ces-eec.sites.olt.ubc.ca/files/2017/04/CES2015_Combined_Stata14.zip", # 2015 combo
+    "https://ces-eec.arts.ubc.ca/files/2018/08/CES2015-phone-Stata.zip", # 2015 phone
+    "https://ces-eec.arts.ubc.ca/files/2017/04/CES2015_Combined_Stata14.zip", # 2015 combo
     "https://borealisdata.ca/api/access/datafile/563748", # 2019 web
     "https://borealisdata.ca/api/access/datafile/880812", # 2019 phone
     "https://borealisdata.ca/api/access/datafile/658983"  # 2021 web
