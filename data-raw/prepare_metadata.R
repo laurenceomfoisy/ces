@@ -8,8 +8,8 @@ ces_datasets <- tibble(
   year = c("1965", "1968", "1972", "1972", "1972", "1974", "1974", "1984", "1988", "1993", 
            "1997", "2000", "2004", "2006", "2008", "2011", 
            "2015", "2015", "2015", "2019", "2019", "2021"),
-  variant = c("survey", "survey", "jnjl", "sep", "nov", "survey", "1974_1980", "survey", "survey", "survey",
-              "survey", "survey", "survey", "survey", "survey", "survey",
+  variant = c("single_survey", "single_survey", "jnjl", "sep", "nov", "single_survey", "1974_1980", "single_survey", "single_survey", "single_survey",
+              "single_survey", "single_survey", "single_survey", "single_survey", "single_survey", "single_survey",
               "web", "phone", "combo", "web", "phone", "web"),
   url = c(
     "https://borealisdata.ca/api/access/datafile/563651", # 1965

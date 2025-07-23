@@ -5,8 +5,8 @@
 #'
 #' @param year A character string indicating the year of the CES data.
 #' @param variant A character string indicating the survey variant to download.
-#'   Options depend on the year: "survey" (default for most years), "web" (default for 2015, 2019), 
-#'   "phone", "combo", "panel", "jnjl", "sep", "nov". Use \code{\link{list_ces_datasets}} to see 
+#'   Options depend on the year: "single_survey" (default for most years), "web" (default for 2015, 2019), 
+#'   "phone", "combo", "1974_1980", "jnjl", "sep", "nov". Use \code{\link{list_ces_datasets}} to see 
 #'   available variants for each year.
 #' @param variables A character vector of variable names to select from the dataset.
 #'   If NULL (default), all variables are returned.
