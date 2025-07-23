@@ -5,10 +5,10 @@ library(tibble)
 
 # Create a tibble with metadata about CES datasets
 ces_datasets <- tibble(
-  year = c("1965", "1968", "1972", "1972", "1972", "1974", "1974-1980", "1984", "1988", "1993", 
+  year = c("1965", "1968", "1972", "1972", "1972", "1974", "1974", "1984", "1988", "1993", 
            "1997", "2000", "2004", "2006", "2008", "2011", 
            "2015", "2015", "2015", "2019", "2019", "2021"),
-  variant = c("survey", "survey", "jnjl", "sep", "nov", "survey", "panel", "survey", "survey", "survey",
+  variant = c("survey", "survey", "jnjl", "sep", "nov", "survey", "1974_1980", "survey", "survey", "survey",
               "survey", "survey", "survey", "survey", "survey", "survey",
               "web", "phone", "combo", "web", "phone", "web"),
   url = c(
@@ -18,7 +18,7 @@ ces_datasets <- tibble(
     "https://borealisdata.ca/api/access/datafile/881549", # 1972 sep
     "https://borealisdata.ca/api/access/datafile/881545", # 1972 nov
     "https://borealisdata.ca/api/access/datafile/880887", # 1974
-    "https://borealisdata.ca/api/access/datafile/563390", # 1974-1980
+    "https://borealisdata.ca/api/access/datafile/563390", # 1974 1974_1980
     "https://borealisdata.ca/api/access/datafile/563500", # 1984
     "https://borealisdata.ca/api/access/datafile/563590", # 1988
     "https://borealisdata.ca/api/access/datafile/563806", # 1993
@@ -114,7 +114,7 @@ ces_datasets <- tibble(
     "Survey",     # 1972 sep
     "Survey",     # 1972 nov
     "Survey",     # 1974
-    "Panel",      # 1974-1980
+    "Panel",      # 1974 1974_1980
     "Survey",     # 1984
     "Survey",     # 1988
     "Survey",     # 1993
@@ -162,7 +162,7 @@ ces_datasets <- tibble(
     "https://borealisdata.ca/api/access/datafile/563221", # 1972 sep
     "https://borealisdata.ca/api/access/datafile/563222", # 1972 nov
     "https://borealisdata.ca/api/access/datafile/563262", # 1974
-    "https://borealisdata.ca/api/access/datafile/563334", # 1974-1980
+    "https://borealisdata.ca/api/access/datafile/563334", # 1974 1974_1980
     "https://borealisdata.ca/api/access/datafile/563316", # 1984
     "https://borealisdata.ca/api/access/datafile/563269", # 1988
     "https://borealisdata.ca/api/access/datafile/563432", # 1993
