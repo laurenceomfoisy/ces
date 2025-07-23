@@ -82,6 +82,9 @@ This package accesses data from the [Borealis Data repository](https://borealisd
 
 The package author is not affiliated with the Canadian Election Study or Borealis Data. Users of this package should properly cite the original Canadian Election Study data in their research publications.
 
+### Original cesR Package
+This package builds upon the foundation laid by the original [cesR package](https://hodgettsp.github.io/cesR/) developed by Paul A. Hodgetts and Rohan Alexander. Their pioneering work in providing R access to Canadian Election Study data was instrumental in inspiring and guiding the development of this enhanced version. While the cesR package is no longer actively maintained, we gratefully acknowledge their contribution to making CES data more accessible to researchers.
+
 ### Package Development
 This package was developed with assistance from Claude Sonnet 3.7, an AI assistant by Anthropic. Claude helped with structuring the package, writing documentation, and implementing the core functionality. The collaboration between the human author and AI demonstrates how these tools can be used to create helpful resources for the research community.
 
