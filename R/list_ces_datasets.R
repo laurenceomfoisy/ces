@@ -1,35 +1,51 @@
 #' List Available Canadian Election Study Datasets
 #'
 #' This function displays a formatted catalog of all available CES datasets that can be
-#' accessed through the package, showing year, variant, type, and description.
-#' All 22 datasets are displayed in full to ensure complete visibility.
+#' accessed through the package, showing year and available variants.
+#' One row per year with variants listed as comma-separated values.
 #'
-#' @return Invisibly returns a tibble with columns for year, variant, type, and description.
-#'   The full catalog is printed to the console for easy viewing.
+#' @return Invisibly returns a tibble with columns for year and variants.
+#'   The catalog is printed to the console for easy viewing.
 #'
 #' @examples
-#' # Display catalog of all available datasets (shows all 22 rows)
+#' # Display catalog of all available datasets by year
 #' list_ces_datasets()
 #'
 #' @export
 list_ces_datasets <- function() {
-  # Create a formatted tibble with all dataset information
-  if (!requireNamespace("tibble", quietly = TRUE)) {
-    # Fallback if tibble is not available
-    result <- ces_datasets[, c("year", "variant", "type", "description")]
-    class(result) <- "data.frame"
-    # Print all rows for data.frame
-    print(result)
-    return(invisible(result))
+  # Get unique years and aggregate variants
+  years <- unique(ces_datasets$year)
+  
+  # Create result data frame
+  result_list <- list()
+  for (year in years) {
+    year_data <- ces_datasets[ces_datasets$year == year, ]
+    variants <- paste(year_data$variant, collapse = ", ")
+    result_list[[length(result_list) + 1]] <- list(year = year, variants = variants)
   }
   
-  # Return selected columns from the internal dataset as a tibble
-  result <- tibble::as_tibble(ces_datasets[, c("year", "variant", "type", "description")])
+  # Convert to data frame
+  result_df <- do.call(rbind, lapply(result_list, data.frame, stringsAsFactors = FALSE))
   
-  # Sort by year and variant for better readability
-  result <- result[order(result$year, result$variant), ]
+  # Sort by year (handle mixed character/numeric years properly)
+  year_order <- order(
+    suppressWarnings(
+      ifelse(grepl("-", result_df$year), 
+             as.numeric(substr(result_df$year, 1, 4)), 
+             as.numeric(result_df$year))
+    )
+  )
+  result_df <- result_df[year_order, ]
   
-  # Print all rows explicitly to ensure users see everything
+  # Create tibble if available, otherwise use data.frame
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    result <- tibble::as_tibble(result_df)
+  } else {
+    result <- result_df
+    class(result) <- "data.frame"
+  }
+  
+  # Print all rows
   print(result, n = Inf)
   
   # Return invisibly so the output isn't printed twice
