@@ -78,7 +78,7 @@ This is the CRAN-approved way to eliminate timestamp verification issues.
 ## Acknowledgments and Disclaimers
 
 ### Data Sources
-This package accesses data from multiple sources including the [Borealis Data repository](https://borealisdata.ca/) and the [Canadian Election Study website](https://ces-eec.sites.olt.ubc.ca/). We gratefully acknowledge both Borealis Data and the Canadian Election Study team for maintaining and providing access to these valuable datasets.
+This package accesses data from multiple sources including the [Borealis Data repository](https://borealisdata.ca/) and the [Canadian Election Study website](https://ces-eec.arts.ubc.ca/). We gratefully acknowledge both Borealis Data and the Canadian Election Study team for maintaining and providing access to these valuable datasets.
 
 The package author is not affiliated with the Canadian Election Study or Borealis Data. Users of this package should properly cite the original Canadian Election Study data in their research publications.
 

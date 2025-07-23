@@ -16,7 +16,7 @@ Description: Provides tools to easily access and analyze Canadian Election Study
     on their political preferences, engagement, and demographics. Data is accessed
     from multiple sources including the 'Borealis' Data repository 
     <https://borealisdata.ca/> and the official 'Canadian Election Study' website 
-    <https://ces-eec.sites.olt.ubc.ca/>. This package is not officially affiliated 
+    <https://ces-eec.arts.ubc.ca/>. This package is not officially affiliated 
     with the Canadian Election Study, 'Borealis' Data, or the University of British 
     Columbia, and users should cite the original data sources in their work.
 License: MIT + file LICENSE

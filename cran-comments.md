@@ -1,39 +1,35 @@
 # CRAN Submission Comments
 
 ## Submission
-This is a resubmission addressing issues from previous CRAN review.
+This is a major release (v1.0.0) of the ces package with significant new features and enhancements.
 
 ## Test Environments
-* Local Ubuntu Linux 6.1.0-33-amd64, R 4.2.2
-* GitHub Actions:
-  * Windows (R-release)
-  * macOS (R-release)
-  * Ubuntu Linux 20.04 (R-release)
-* win-builder (devel and release)
+* Local Arch Linux 6.15.7-arch1-1, R 4.5.1
+* Package tested on development environment with comprehensive test suite
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+1 warning | 2 notes
 
-* All check environments pass cleanly
-* Package has been tested for cross-platform compatibility
+* **WARNING**: 'qpdf' not available for PDF size reduction (development environment issue, not package issue)
+* **NOTE**: URL redirect from ces-eec.sites.olt.ubc.ca to ces-eec.arts.ubc.ca (updated in this submission)
+* **NOTE**: HTML Tidy not available (development environment issue, not package issue)
+
+All core functionality passes checks. The warning and notes are development environment issues, not package problems.
 
 ## Downstream dependencies
 
 There are currently no downstream dependencies for this package.
 
-## Changes from Previous Submission
+## Major Changes in v1.0.0
 
-The following issues from the previous CRAN review have been addressed:
+This release represents a significant enhancement of the package with the following major new features:
 
-1. **Replaced \dontrun{} with \donttest{}**: All examples that download data now use \donttest{} instead of \dontrun{} as they can be executed but are time-consuming.
-
-2. **Fixed file writing behavior**: Functions no longer write to user's home filespace by default. Instead, they:
-   - Use Downloads directory if available, otherwise tempdir()
-   - All examples use tempdir() explicitly
-   - Documentation clearly states the new default behavior
-
-3. **Removed installation script**: Removed inst/scripts/install.R which violated CRAN policy by installing packages.
+1. **Complete Survey Variant Support**: Added comprehensive support for all CES survey variants (web, phone, combo, panel studies)
+2. **Enhanced Data Coverage**: 22 CES datasets across 16 election years (1965-2021) with 100% codebook coverage
+3. **Improved User Experience**: Intelligent defaults and informative messaging for variant selection
+4. **Robust Download System**: Enhanced error handling, retry mechanisms, and ZIP file support
+5. **Comprehensive Testing**: 65 passing tests with 0 failures
 
 ## Package purpose
 
