@@ -50,8 +50,11 @@ download_ces_dataset <- function(year, variant = NULL, path = NULL, overwrite = 
     stop("Invalid year. Available years are: ", paste(sort(valid_years), collapse = ", "))
   }
   
+  # Track if variant was originally NULL for message purposes
+  is_variant_null <- is.null(variant)
+  
   # Determine default variant based on year
-  if (is.null(variant)) {
+  if (is_variant_null) {
     if (year %in% c("2015", "2019")) {
       variant <- "web"
     } else {
@@ -67,6 +70,9 @@ download_ces_dataset <- function(year, variant = NULL, path = NULL, overwrite = 
     stop("Invalid variant '", variant, "' for year ", year, 
          ". Available variants are: ", paste(available_variants, collapse = ", "))
   }
+  
+  # Show variant information message if applicable
+  show_variant_message(year, variant, is_variant_null, verbose)
   
   # If path is NULL, use Downloads directory if available, otherwise tempdir
   if (is.null(path)) {

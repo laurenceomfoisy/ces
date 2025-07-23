@@ -244,3 +244,42 @@ extract_data_from_zip <- function(url, destfile, expected_format, quiet = FALSE)
   msg("ZIP extraction complete, temporary files cleaned up")
   return(destfile)
 }
+
+#' Show variant information message when multiple variants are available
+#'
+#' This helper function displays an informative message when a user accesses 
+#' a year with multiple variants without specifying a variant parameter.
+#'
+#' @param year Character string indicating the year
+#' @param selected_variant Character string indicating the variant that was selected
+#' @param is_variant_null Logical indicating if variant parameter was NULL
+#' @param verbose Logical indicating whether to show messages
+#' @return NULL (invisible), message shown as side effect
+#' @keywords internal
+show_variant_message <- function(year, selected_variant, is_variant_null, verbose = TRUE) {
+  # Only show message if verbose=TRUE and variant was not explicitly specified
+  if (!verbose || !is_variant_null) {
+    return(invisible(NULL))
+  }
+  
+  # Get all variants for this year
+  year_datasets <- ces_datasets[ces_datasets$year == year, ]
+  
+  # Only show message if there are multiple variants
+  if (nrow(year_datasets) <= 1) {
+    return(invisible(NULL))
+  }
+  
+  # Get other available variants (excluding the selected one)
+  all_variants <- year_datasets$variant
+  other_variants <- all_variants[all_variants != selected_variant]
+  
+  if (length(other_variants) > 0) {
+    other_variants_text <- paste(other_variants, collapse = ", ")
+    message("You have accessed the '", selected_variant, "' variant by default. ",
+            "Other variants available: ", other_variants_text, ". ",
+            "Use the variant argument to select a specific variant.")
+  }
+  
+  return(invisible(NULL))
+}

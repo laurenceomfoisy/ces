@@ -158,10 +158,10 @@ ces_datasets <- tibble(
   codebook_url = c(
     "https://borealisdata.ca/api/access/datafile/563560", # 1965
     "https://borealisdata.ca/api/access/datafile/563415", # 1968
-    "", # 1972 jnjl - no codebook URL available
-    "", # 1972 sep - no codebook URL available
-    "", # 1972 nov - no codebook URL available
-    "", # 1974 - no codebook URL available
+    "https://borealisdata.ca/api/access/datafile/563235", # 1972 jnjl
+    "https://borealisdata.ca/api/access/datafile/563221", # 1972 sep
+    "https://borealisdata.ca/api/access/datafile/563222", # 1972 nov
+    "https://borealisdata.ca/api/access/datafile/563262", # 1974
     "https://borealisdata.ca/api/access/datafile/563334", # 1974-1980
     "https://borealisdata.ca/api/access/datafile/563316", # 1984
     "https://borealisdata.ca/api/access/datafile/563269", # 1988
@@ -173,10 +173,10 @@ ces_datasets <- tibble(
     "https://borealisdata.ca/api/access/datafile/563226", # 2008
     "https://borealisdata.ca/api/access/datafile/563355", # 2011
     "https://borealisdata.ca/api/access/datafile/563239", # 2015 web
-    "", # 2015 phone - no separate codebook
-    "", # 2015 combo - no separate codebook
+    "https://borealisdata.ca/api/access/datafile/563381", # 2015 phone
+    "https://borealisdata.ca/api/access/datafile/563239", # 2015 combo
     "https://borealisdata.ca/api/access/datafile/563276", # 2019 web
-    "", # 2019 phone - no separate codebook
+    "https://borealisdata.ca/api/access/datafile/761212", # 2019 phone
     "https://borealisdata.ca/api/access/datafile/658980"  # 2021 web
   ),
   citation = c(

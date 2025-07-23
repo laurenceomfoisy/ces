@@ -56,8 +56,11 @@ get_ces <- function(year, variant = NULL, format = "tibble", language = "en", cl
     stop("Invalid year. Available years are: ", paste(sort(valid_years), collapse = ", "))
   }
   
+  # Track if variant was originally NULL for message purposes
+  is_variant_null <- is.null(variant)
+  
   # Determine default variant based on year
-  if (is.null(variant)) {
+  if (is_variant_null) {
     if (year %in% c("2015", "2019")) {
       variant <- "web"
     } else {
@@ -73,6 +76,9 @@ get_ces <- function(year, variant = NULL, format = "tibble", language = "en", cl
     stop("Invalid variant '", variant, "' for year ", year, 
          ". Available variants are: ", paste(available_variants, collapse = ", "))
   }
+  
+  # Show variant information message if applicable
+  show_variant_message(year, variant, is_variant_null, verbose)
   
   valid_formats <- c("tibble", "data.frame", "raw")
   if (!format %in% valid_formats) {

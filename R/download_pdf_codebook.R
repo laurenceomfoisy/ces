@@ -5,8 +5,11 @@
 #' question wording, response codes, and methodological details.
 #'
 #' @param year A character string indicating the year of the CES data. 
-#'   Available years include "1965", "1968", "1974-1980", "1984", "1988", "1993", 
+#'   Available years include "1965", "1968", "1972", "1974", "1974-1980", "1984", "1988", "1993", 
 #'   "1997", "2000", "2004", "2006", "2008", "2011", "2015", "2019", "2021".
+#' @param variant A character string indicating the survey variant to download.
+#'   For years with multiple variants (1972, 2015, 2019), this specifies which one to use.
+#'   If NULL (default), uses the first available variant for the year.
 #' @param path A character string indicating the directory where the codebook should
 #'   be saved. If NULL (default), the codebook will be saved to the Downloads
 #'   directory if available, otherwise to a temporary directory.
@@ -19,18 +22,21 @@
 #'
 #' @examples
 #' \donttest{
-#' # Download the 2019 CES codebook to a temporary directory
+#' # Download the 2019 CES codebook to a temporary directory (defaults to web variant)
 #' download_pdf_codebook("2019", path = tempdir())
 #'
-#' # Download to a temporary directory
-#' download_pdf_codebook("2015", path = tempdir())
+#' # Download the 2019 phone survey codebook
+#' download_pdf_codebook("2019", variant = "phone", path = tempdir())
+#'
+#' # Download the 1972 September survey codebook
+#' download_pdf_codebook("1972", variant = "sep", path = tempdir())
 #' 
 #' # Overwrite existing file
 #' download_pdf_codebook("2021", path = tempdir(), overwrite = TRUE)
 #' }
 #'
 #' @export
-download_pdf_codebook <- function(year, path = NULL, overwrite = FALSE, verbose = TRUE) {
+download_pdf_codebook <- function(year, variant = NULL, path = NULL, overwrite = FALSE, verbose = TRUE) {
   # Input validation
   valid_years <- unique(ces_datasets$year)
   
@@ -38,25 +44,55 @@ download_pdf_codebook <- function(year, path = NULL, overwrite = FALSE, verbose 
     stop("Invalid year. Available years are: ", paste(sort(valid_years), collapse = ", "))
   }
   
+  # Track if variant was originally NULL for message purposes
+  is_variant_null <- is.null(variant)
+  
   # Get dataset information from internal data
-  # For codebooks, we usually have one per year, so we get the first entry for the year
-  # that has a non-empty codebook URL
   year_datasets <- ces_datasets[ces_datasets$year == year, ]
   
   if (nrow(year_datasets) == 0) {
     stop("Could not find information for year: ", year)
   }
   
+  # Determine default variant based on year if not specified
+  if (is.null(variant)) {
+    if (year %in% c("2015", "2019")) {
+      variant <- "web"
+    } else {
+      # For years with multiple variants, get the first one (usually the main one)
+      variant <- year_datasets$variant[1]
+    }
+  }
+  
+  # Filter by the selected variant
+  variant_datasets <- year_datasets[year_datasets$variant == variant, ]
+  if (nrow(variant_datasets) == 0) {
+    available_variants <- paste(year_datasets$variant, collapse = ", ")
+    stop("Variant '", variant, "' not available for year ", year, 
+         ". Available variants: ", available_variants)
+  }
+  year_datasets <- variant_datasets
+  
+  # Show variant information message if applicable
+  show_variant_message(year, variant, is_variant_null, verbose)
+  
   # Find the first dataset with a non-empty codebook URL
   codebook_urls <- year_datasets$codebook_url
   non_empty_urls <- codebook_urls[codebook_urls != "" & !is.na(codebook_urls)]
   
   if (length(non_empty_urls) == 0) {
-    stop("No codebook is available for year: ", year)
+    if (!is.null(variant)) {
+      stop("No codebook is available for year ", year, " variant '", variant, "'")
+    } else {
+      stop("No codebook is available for year: ", year)
+    }
   }
   
   # Use the first available codebook URL
   codebook_url <- non_empty_urls[1]
+  
+  # Get the variant for filename (use the actual variant from the selected dataset)
+  selected_variant <- year_datasets$variant[year_datasets$codebook_url == codebook_url][1]
   
   # If path is NULL, use Downloads directory if available, otherwise tempdir
   if (is.null(path)) {
@@ -72,7 +108,13 @@ download_pdf_codebook <- function(year, path = NULL, overwrite = FALSE, verbose 
   }
   
   # Define the full file path
-  file_name <- paste0("CES_", year, "_codebook.pdf")
+  if (!is.null(variant) && length(year_datasets) > 1) {
+    file_name <- paste0("CES_", year, "_", selected_variant, "_codebook.pdf")
+  } else if (nrow(ces_datasets[ces_datasets$year == year, ]) > 1) {
+    file_name <- paste0("CES_", year, "_", selected_variant, "_codebook.pdf")
+  } else {
+    file_name <- paste0("CES_", year, "_codebook.pdf")
+  }
   file_path <- file.path(path, file_name)
   
   # Check if file already exists and handle overwrite settings
@@ -84,7 +126,11 @@ download_pdf_codebook <- function(year, path = NULL, overwrite = FALSE, verbose 
   }
   
   # Download the codebook
-  msg(paste0("Downloading CES ", year, " codebook from ", codebook_url))
+  if (!is.null(variant) || nrow(ces_datasets[ces_datasets$year == year, ]) > 1) {
+    msg(paste0("Downloading CES ", year, " (", selected_variant, ") codebook from ", codebook_url))
+  } else {
+    msg(paste0("Downloading CES ", year, " codebook from ", codebook_url))
+  }
   msg(paste0("Saving to: ", file_path))
   
   # Use our safe download function with proper error handling
