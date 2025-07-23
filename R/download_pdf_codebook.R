@@ -58,6 +58,8 @@ download_pdf_codebook <- function(year, variant = NULL, path = NULL, overwrite =
   if (is.null(variant)) {
     if (year %in% c("2015", "2019")) {
       variant <- "web"
+    } else if (year == "1974") {
+      variant <- "1974_1980"
     } else {
       # For years with multiple variants, get the first one (usually the main one)
       variant <- year_datasets$variant[1]

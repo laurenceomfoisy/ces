@@ -63,6 +63,8 @@ get_ces <- function(year, variant = NULL, format = "tibble", language = "en", cl
   if (is_variant_null) {
     if (year %in% c("2015", "2019")) {
       variant <- "web"
+    } else if (year == "1974") {
+      variant <- "1974_1980"
     } else {
       # For years with multiple variants, get the first one (usually the main one)
       available_variants <- ces_datasets$variant[ces_datasets$year == year]
