@@ -48,7 +48,8 @@ download_all_ces_datasets(path = tempdir(), overwrite = TRUE)
 download_all_ces_datasets(years = c("2015", "2019", "2021"), path = tempdir(), overwrite = TRUE)
 
 # Download only web surveys for 2015 and 2019
-download_all_ces_datasets(years = c("2015", "2019"), variants = "web", path = tempdir(), overwrite = TRUE)
+download_all_ces_datasets(years = c("2015", "2019"), variants = "web", 
+                         path = tempdir(), overwrite = TRUE)
 
 # Download to a temporary directory with overwrite
 download_all_ces_datasets(path = tempdir(), overwrite = TRUE)
