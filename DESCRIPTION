@@ -1,6 +1,6 @@
 Package: ces
 Title: Access to Canadian Election Study Data
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: 
     person(given = "Laurence-Olivier",
            family = "M. Foisy",

@@ -70,7 +70,7 @@ ces_1993_raw <- get_ces("1993", clean = FALSE)
 ces_1972_sep <- get_ces("1972", variant = "sep")
 
 # Download the official codebook to temporary directory
-download_pdf_codebook("2019", path = tempdir())
+download_pdf_codebook("2019", path = tempdir(), overwrite = TRUE)
 }
 
 }

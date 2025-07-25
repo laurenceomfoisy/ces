@@ -42,13 +42,13 @@ question wording, response codes, and methodological details.
 \examples{
 \donttest{
 # Download the 2019 CES codebook to a temporary directory (defaults to web variant)
-download_pdf_codebook("2019", path = tempdir())
+download_pdf_codebook("2019", path = tempdir(), overwrite = TRUE)
 
 # Download the 2019 phone survey codebook
-download_pdf_codebook("2019", variant = "phone", path = tempdir())
+download_pdf_codebook("2019", variant = "phone", path = tempdir(), overwrite = TRUE)
 
 # Download the 1972 September survey codebook
-download_pdf_codebook("1972", variant = "sep", path = tempdir())
+download_pdf_codebook("1972", variant = "sep", path = tempdir(), overwrite = TRUE)
 
 # Overwrite existing file
 download_pdf_codebook("2021", path = tempdir(), overwrite = TRUE)

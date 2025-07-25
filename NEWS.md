@@ -1,3 +1,19 @@
+# ces 1.0.1
+
+## Bug Fix
+
+* Fixed critical bug in 2015 combo dataset where file format was incorrectly specified as SPSS instead of Stata format, preventing `get_ces("2015", variant = "combo")` from working properly
+
+# ces 1.0.0
+
+## Major Release
+
+* Complete Survey Variant Support: Added comprehensive support for all CES survey variants (web, phone, combo, panel studies)
+* Enhanced Data Coverage: 22 CES datasets across 16 election years (1965-2021) with 100% codebook coverage  
+* Improved User Experience: Intelligent defaults and informative messaging for variant selection
+* Robust Download System: Enhanced error handling, retry mechanisms, and ZIP file support
+* Comprehensive Testing: 65 passing tests with 0 failures
+
 # ces 0.1.0
 
 * Initial release

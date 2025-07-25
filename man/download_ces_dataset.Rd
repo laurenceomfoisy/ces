@@ -44,13 +44,13 @@ where the format extension corresponds to the original dataset format (e.g., .sa
 \examples{
 \donttest{
 # Download the 2019 CES web survey dataset to a temporary directory
-download_ces_dataset("2019", path = tempdir())
+download_ces_dataset("2019", path = tempdir(), overwrite = TRUE)
 
 # Download the 2019 phone survey to a specific directory
-download_ces_dataset("2019", variant = "phone", path = tempdir())
+download_ces_dataset("2019", variant = "phone", path = tempdir(), overwrite = TRUE)
 
 # Download 1972 September survey
-download_ces_dataset("1972", variant = "sep", path = tempdir())
+download_ces_dataset("1972", variant = "sep", path = tempdir(), overwrite = TRUE)
 
 # Overwrite existing file
 download_ces_dataset("2021", path = tempdir(), overwrite = TRUE)

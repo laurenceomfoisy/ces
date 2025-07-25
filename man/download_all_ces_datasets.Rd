@@ -42,13 +42,13 @@ files (PDFs, etc.) discarded.
 \examples{
 \donttest{
 # Download all CES datasets to a temporary directory
-download_all_ces_datasets(path = tempdir())
+download_all_ces_datasets(path = tempdir(), overwrite = TRUE)
 
 # Download only specific years (all variants for those years)
-download_all_ces_datasets(years = c("2015", "2019", "2021"), path = tempdir())
+download_all_ces_datasets(years = c("2015", "2019", "2021"), path = tempdir(), overwrite = TRUE)
 
 # Download only web surveys for 2015 and 2019
-download_all_ces_datasets(years = c("2015", "2019"), variants = "web", path = tempdir())
+download_all_ces_datasets(years = c("2015", "2019"), variants = "web", path = tempdir(), overwrite = TRUE)
 
 # Download to a temporary directory with overwrite
 download_all_ces_datasets(path = tempdir(), overwrite = TRUE)
