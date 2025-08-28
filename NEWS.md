@@ -1,3 +1,11 @@
+# ces 1.0.2
+
+## Bug Fix
+
+* **MAJOR**: Fixed critical bug in `create_codebook()` function that caused "arguments imply differing number of rows" error for multiple datasets (2015 web, 2015 phone, 2021 web). The issue was caused by multi-value variable labels being incorrectly handled, leading to vector length mismatches during data.frame creation. Multi-value labels are now properly collapsed with " | " separator.
+* Added comprehensive tests for `create_codebook()` function to prevent regression, including specific tests for multi-value labels, missing labels, and different output formats.
+* Verified fix works across all CES datasets and maintains backward compatibility.
+
 # ces 1.0.1
 
 ## Bug Fix

@@ -56,7 +56,16 @@ create_codebook <- function(data, include_values = TRUE, format = "tibble") {
     if (is.null(label)) {
       question_labels <- c(question_labels, NA_character_)
     } else {
-      question_labels <- c(question_labels, as.character(label))
+      # Handle multi-value labels by collapsing them into a single string
+      label_char <- as.character(label)
+      if (length(label_char) > 1) {
+        # Multiple values in label - collapse with separator
+        collapsed_label <- paste(label_char, collapse = " | ")
+        question_labels <- c(question_labels, collapsed_label)
+      } else {
+        # Single value label - use as is
+        question_labels <- c(question_labels, label_char)
+      }
     }
     
     # Get response options/labels (if available)
