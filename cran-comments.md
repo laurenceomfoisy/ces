@@ -16,9 +16,11 @@ This is a minor release (1.1.0) of the ces package.
 
 ## Test environments
 
-* Local: Arch Linux, R 4.6.0
-* win-builder: R-devel and R-release
-* R-hub: ubuntu, windows, macos (GitHub Actions)
+* Local: Arch Linux, R 4.6.0 -- R CMD check --as-cran: 0 errors | 0 warnings | 0 notes
+
+<!-- MAINTAINER TODO before submitting (remove this comment once done):
+     run devtools::check_win_devel() and devtools::check_win_release(),
+     then list R-devel and R-release results here. -->
 
 ## R CMD check results
 
