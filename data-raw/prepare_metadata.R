@@ -29,7 +29,7 @@ ces_datasets <- tibble(
     "https://borealisdata.ca/api/access/datafile/563439", # 2008
     "https://borealisdata.ca/api/access/datafile/563961", # 2011
     "https://borealisdata.ca/api/access/datafile/563704", # 2015 web
-    "https://ces-eec.sites.olt.ubc.ca/files/2018/08/CES2015-phone-Stata.zip", # 2015 phone
+    "https://github.com/laurenceomfoisy/ces/releases/download/v1.1.0/CES2015_CPS-PES-MBS_complete-v2.dta", # 2015 phone
     "https://borealisdata.ca/api/access/datafile/563562", # 2015 combo
     "https://borealisdata.ca/api/access/datafile/563748", # 2019 web
     "https://borealisdata.ca/api/access/datafile/880812", # 2019 phone
@@ -54,7 +54,7 @@ ces_datasets <- tibble(
     FALSE, # 2008
     FALSE, # 2011
     FALSE, # 2015 web
-    TRUE,  # 2015 phone
+    FALSE, # 2015 phone (re-hosted as direct Stata file on the package GitHub release)
     FALSE, # 2015 combo (Borealis direct Stata file, not zipped)
     FALSE, # 2019 web
     TRUE,  # 2019 phone

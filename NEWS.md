@@ -7,7 +7,7 @@
 
 ## Bug fixes
 
-* Restored access to the **2015 phone** and **2015 combined** (web/phone) surveys, which had stopped downloading. The UBC host now sits behind bot-protection that returns an HTML challenge page to programmatic clients; downloads now send a standard browser `User-Agent` (restored on exit) so the data files are retrieved correctly. The 2015 combined survey is additionally sourced from the Borealis repository for stability. Both datasets match the corresponding `cesR` package variants exactly (phone: 4,202 x 455, read with Latin1 encoding; combined: 11,614 x 665).
+* Restored access to the **2015 phone** and **2015 combined** (web/phone) surveys, which had stopped downloading after the original UBC host began returning an HTML bot-protection page to programmatic clients. The 2015 combined survey is now sourced from the Borealis repository, and the 2015 phone survey from a stable mirror, so both download reliably. Downloads also send a standard browser `User-Agent` (saved and restored on exit) for robustness against such host-side protections. Both datasets match the corresponding `cesR` package variants exactly (phone: 4,202 x 455, Latin1 encoding; combined: 11,614 x 665).
 
 # ces 1.0.2
 
