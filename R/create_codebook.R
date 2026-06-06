@@ -134,11 +134,15 @@ create_codebook <- function(data, include_values = TRUE, format = "tibble") {
 #' ces_data <- get_ces("2019")
 #' codebook <- create_codebook(ces_data)
 #'
-#' # Export to CSV
-#' export_codebook(codebook, "ces_2019_codebook.csv")
+#' # Export to CSV (written to a temporary directory)
+#' csv_path <- file.path(tempdir(), "ces_2019_codebook.csv")
+#' export_codebook(codebook, csv_path)
 #'
-#' # Export to Excel
-#' export_codebook(codebook, "ces_2019_codebook.xlsx")
+#' # Export to Excel (requires the 'openxlsx' package)
+#' if (requireNamespace("openxlsx", quietly = TRUE)) {
+#'   xlsx_path <- file.path(tempdir(), "ces_2019_codebook.xlsx")
+#'   export_codebook(codebook, xlsx_path)
+#' }
 #' }
 #'
 #' @export

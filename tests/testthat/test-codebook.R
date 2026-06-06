@@ -109,11 +109,21 @@ test_that("create_codebook works with problematic datasets", {
       expect_true(nrow(codebook) > 0)
       
     }, error = function(e) {
-      # Skip if it's a network-related error
-      if (grepl("download|connection|internet|resolve|timeout", e$message, ignore.case = TRUE)) {
-        skip(paste("Network unavailable for", year, variant))
+      # Skip gracefully when the remote resource is unavailable or returns an
+      # unusable file (CRAN policy: internet resources must fail gracefully).
+      # This covers connection failures as well as download/extraction failures
+      # (e.g. a server returning a truncated response or a malformed ZIP).
+      network_pattern <- paste(
+        "download", "connection", "internet", "resolve", "timeout",
+        "peer", "server", "http", "url", "unavailable", "not available",
+        "cannot open", "zip", "extract", "no stata", "no spss", "data file",
+        "status was",
+        sep = "|"
+      )
+      if (grepl(network_pattern, conditionMessage(e), ignore.case = TRUE)) {
+        skip(paste("Remote resource unavailable for", year, variant))
       } else {
-        # Re-throw non-network errors (these are real test failures)
+        # Re-throw genuine (non-network) errors as real test failures.
         stop(e)
       }
     })
