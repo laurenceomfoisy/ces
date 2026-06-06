@@ -1,50 +1,33 @@
-## Resubmission Note (v1.0.1)
+## Submission
 
-This is a rapid resubmission to correct a critical bug discovered shortly after the submission of v1.0.0. The original submission comments for the v1.0.0 major release are preserved below.
+This is a minor release (1.1.0) of the ces package.
 
-The bug prevented `get_ces("2015", variant = "combo")` from working due to incorrect file format metadata. This has been corrected. No other changes have been made.
+### Changes in this version
 
----
+* Added the 2025 Canadian Election Study web survey, retrieved from Harvard
+  Dataverse (doi:10.7910/DVN/2YAQ8D). Coverage now spans 23 datasets from
+  1965 to 2025.
+* Restored downloads of the 2015 phone and combined (web/phone) surveys, which
+  had stopped working. The upstream host began returning an HTML
+  bot-protection page to programmatic clients; the package now sends a standard
+  browser `User-Agent` (saved and restored on exit, so global options are not
+  modified) so the data files are retrieved correctly. The 2015 combined survey
+  is additionally sourced from the Borealis repository for stability.
 
-## CRAN Submission Comments (v1.0.0)
-### Submission
+## Test environments
 
-This is a major release (v1.0.0) of the ces package with significant new features and enhancements.
-### Test Environments
+* Local: Arch Linux, R 4.6.0
+* win-builder: R-devel and R-release
+* R-hub: ubuntu, windows, macos (GitHub Actions)
 
-*   Local Arch Linux 6.15.7-arch1-1, R 4.5.1
-*   Package tested on development environment with comprehensive test suite
+## R CMD check results
 
-### R CMD check results
+0 errors | 0 warnings | 0 notes
 
-1 warning | 2 notes
+`R CMD check --as-cran` passed cleanly (Status: OK) on the local environment.
+All examples that access the internet are wrapped in `\donttest{}`; tests that
+require network resources skip gracefully when those resources are unavailable.
 
-*   WARNING: 'qpdf' not available for PDF size reduction (development environment issue, not package issue)
-*   NOTE: URL redirect from ces-eec.sites.olt.ubc.ca to ces-eec.arts.ubc.ca (fixed in this submission)
-*   NOTE: HTML Tidy not available (development environment issue, not package issue)
+## Reverse dependencies
 
-All core functionality passes checks. The warning and notes are development environment issues, not package problems.
-### Downstream dependencies
-
-There are currently no downstream dependencies for this package.
-### Major Changes in v1.0.0
-
-This release represents a significant enhancement of the package with the following major new features:
-
-*   Complete Survey Variant Support: Added comprehensive support for all CES survey variants (web, phone, combo, panel studies)
-*   Enhanced Data Coverage: 22 CES datasets across 16 election years (1965-2021) with 100% codebook coverage
-*   Improved User Experience: Intelligent defaults and informative messaging for variant selection
-*   Robust Download System: Enhanced error handling, retry mechanisms, and ZIP file support
-*   Comprehensive Testing: 65 passing tests with 0 failures
-
-### Package purpose
-
-This package provides tools for accessing and analyzing Canadian Election Study (CES) datasets. The CES has been conducted during federal elections since 1965, providing valuable data for political science research.
-
-The package handles downloading data files from multiple sources (primarily the Borealis Data repository and the official Canadian Election Study website), converts them to appropriate R formats, and provides utilities for subsetting and analyzing the data.
-### URL Stability and Network Access
-
-*   Data is hosted at stable institutional repositories (Borealis Data repository and the official CES website)
-*   All functions that require internet access use appropriate error handling
-*   All examples requiring network access are properly wrapped in \donttest{}
-*   The package includes caching mechanisms to reduce unnecessary downloads
+There are currently no reverse dependencies for this package.

@@ -24,7 +24,7 @@ The `ces` package provides easy access to Canadian Election Study (CES) data, si
 
 ## Available Datasets
 
-The package provides access to Canadian Election Study datasets spanning from 1965 to 2021, including different survey variants where available:
+The package provides access to Canadian Election Study datasets spanning from 1965 to 2025, including different survey variants where available:
 
 ```{r}
 # List all available datasets with variants
@@ -40,6 +40,7 @@ Some years have multiple survey variants available:
 - **2015**: web, phone, and combo (combined) surveys
 - **2019**: web and phone surveys  
 - **2021**: web survey only
+- **2025**: web survey only
 - **1972**: three separate surveys (June/July, September, November)
 - **1974**: single survey (separate from the 1974-1980 panel)
 - **Other years**: single survey datasets

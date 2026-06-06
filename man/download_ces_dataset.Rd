@@ -15,7 +15,7 @@ download_ces_dataset(
 \arguments{
 \item{year}{A character string indicating the year of the CES data to download.
 Available years include "1965", "1968", "1972", "1974", "1984", "1988", "1993",
-"1997", "2000", "2004", "2006", "2008", "2011", "2015", "2019", "2021".}
+"1997", "2000", "2004", "2006", "2008", "2011", "2015", "2019", "2021", "2025".}
 
 \item{variant}{A character string indicating the survey variant to download.
 Options depend on the year: "single_survey" (default for most years), "web" (default for 2015, 2019),

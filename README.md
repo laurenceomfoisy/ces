@@ -54,7 +54,7 @@ download_all_ces_datasets(path = "~/CES_data")
 
 ## Features
 
-- Easy access to CES datasets from various years (1965-2021)
+- Easy access to CES datasets from various years (1965-2025)
 - Consistent data format across years
 - Simple filtering and subsetting functions
 - Automatic generation of variable codebooks

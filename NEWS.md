@@ -1,3 +1,14 @@
+# ces 1.1.0
+
+## New data
+
+* Added the **2025 Canadian Election Study** web survey, retrieved from Harvard Dataverse (doi:10.7910/DVN/2YAQ8D). Access it with `get_ces("2025")` or `get_ces("2025", variant = "web")`; the PDF technical report and codebook are available via `download_pdf_codebook("2025")`.
+* Dataset coverage now spans **23 datasets from 1965 to 2025**.
+
+## Bug fixes
+
+* Restored access to the **2015 phone** and **2015 combined** (web/phone) surveys, which had stopped downloading. The UBC host now sits behind bot-protection that returns an HTML challenge page to programmatic clients; downloads now send a standard browser `User-Agent` (restored on exit) so the data files are retrieved correctly. The 2015 combined survey is additionally sourced from the Borealis repository for stability. Both datasets match the corresponding `cesR` package variants exactly (phone: 4,202 x 455, read with Latin1 encoding; combined: 11,614 x 665).
+
 # ces 1.0.2
 
 ## Bug Fix

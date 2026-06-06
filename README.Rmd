@@ -37,7 +37,7 @@ devtools::install_github("laurenceomfoisy/ces")
 
 ## Features
 
-- Easy access to CES datasets from various years (1965-2021)
+- Easy access to CES datasets from various years (1965-2025)
 - Consistent data format across years
 - Simple filtering and subsetting functions
 - Automatic generation of variable codebooks
@@ -113,7 +113,7 @@ if ("leader_rating_trudeau" %in% names(leader_data) &&
 
 ## Available Datasets
 
-The package currently provides access to CES datasets from 1965 to 2021:
+The package currently provides access to CES datasets from 1965 to 2025:
 
 ```{r eval=FALSE}
 # List all datasets

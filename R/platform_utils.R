@@ -111,7 +111,19 @@ safe_download <- function(url, destfile, mode = "wb", quiet = FALSE, timeout = 6
   old_timeout <- options("timeout")
   on.exit(options(timeout = old_timeout))
   options(timeout = timeout)
-  
+
+  # Present a standard browser User-Agent for the duration of the download.
+  # Some data hosts (notably the UBC CES site) sit behind bot-protection that
+  # serves an HTML challenge page to non-browser user agents; without this the
+  # challenge page would be written in place of the data file. The previous
+  # value is restored on exit, so the user's global options are not modified.
+  old_ua <- options("HTTPUserAgent")
+  on.exit(options(old_ua), add = TRUE)
+  options(HTTPUserAgent = paste0(
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 ",
+    "(KHTML, like Gecko) Chrome/120.0 Safari/537.36"
+  ))
+
   # Try download with retries
   for (attempt in 1:max_retries) {
     result <- tryCatch({

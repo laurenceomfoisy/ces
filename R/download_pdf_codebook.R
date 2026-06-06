@@ -6,7 +6,7 @@
 #'
 #' @param year A character string indicating the year of the CES data. 
 #'   Available years include "1965", "1968", "1972", "1974", "1984", "1988", "1993", 
-#'   "1997", "2000", "2004", "2006", "2008", "2011", "2015", "2019", "2021".
+#'   "1997", "2000", "2004", "2006", "2008", "2011", "2015", "2019", "2021", "2025".
 #' @param variant A character string indicating the survey variant to download.
 #'   For years with multiple variants (1972, 2015, 2019), this specifies which one to use.
 #'   If NULL (default), uses the first available variant for the year.

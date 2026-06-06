@@ -7,10 +7,10 @@ library(tibble)
 ces_datasets <- tibble(
   year = c("1965", "1968", "1972", "1972", "1972", "1974", "1974", "1984", "1988", "1993", 
            "1997", "2000", "2004", "2006", "2008", "2011", 
-           "2015", "2015", "2015", "2019", "2019", "2021"),
+           "2015", "2015", "2015", "2019", "2019", "2021", "2025"),
   variant = c("single_survey", "single_survey", "jnjl", "sep", "nov", "single_survey", "1974_1980", "single_survey", "single_survey", "single_survey",
               "single_survey", "single_survey", "single_survey", "single_survey", "single_survey", "single_survey",
-              "web", "phone", "combo", "web", "phone", "web"),
+              "web", "phone", "combo", "web", "phone", "web", "web"),
   url = c(
     "https://borealisdata.ca/api/access/datafile/563651", # 1965
     "https://borealisdata.ca/api/access/datafile/563469", # 1968
@@ -29,11 +29,12 @@ ces_datasets <- tibble(
     "https://borealisdata.ca/api/access/datafile/563439", # 2008
     "https://borealisdata.ca/api/access/datafile/563961", # 2011
     "https://borealisdata.ca/api/access/datafile/563704", # 2015 web
-    "https://ces-eec.arts.ubc.ca/files/2018/08/CES2015-phone-Stata.zip", # 2015 phone
-    "https://ces-eec.arts.ubc.ca/files/2017/04/CES2015_Combined_Stata14.zip", # 2015 combo
+    "https://ces-eec.sites.olt.ubc.ca/files/2018/08/CES2015-phone-Stata.zip", # 2015 phone
+    "https://borealisdata.ca/api/access/datafile/563562", # 2015 combo
     "https://borealisdata.ca/api/access/datafile/563748", # 2019 web
     "https://borealisdata.ca/api/access/datafile/880812", # 2019 phone
-    "https://borealisdata.ca/api/access/datafile/658983"  # 2021 web
+    "https://borealisdata.ca/api/access/datafile/658983", # 2021 web
+    "https://dataverse.harvard.edu/api/access/datafile/13958997"  # 2025 web
   ),
   is_zip = c(
     FALSE, # 1965
@@ -54,10 +55,11 @@ ces_datasets <- tibble(
     FALSE, # 2011
     FALSE, # 2015 web
     TRUE,  # 2015 phone
-    TRUE,  # 2015 combo
+    FALSE, # 2015 combo (Borealis direct Stata file, not zipped)
     FALSE, # 2019 web
     TRUE,  # 2019 phone
-    FALSE  # 2021 web
+    FALSE, # 2021 web
+    FALSE  # 2025 web
   ),
   format = c(
     "spss", # 1965
@@ -81,7 +83,8 @@ ces_datasets <- tibble(
     "stata", # 2015 combo
     "spss", # 2019 web
     "stata", # 2019 phone (contains .dta file)
-    "stata"  # 2021 web
+    "stata", # 2021 web
+    "stata"  # 2025 web
   ),
   encoding = c(
     "default", # 1965
@@ -101,11 +104,12 @@ ces_datasets <- tibble(
     "default", # 2008
     "default", # 2011
     "Latin1",  # 2015 web
-    "default", # 2015 phone
+    "Latin1",  # 2015 phone (matches cesR read_dta encoding)
     "default", # 2015 combo
     "Latin1",  # 2019 web
     "UTF-8", # 2019 phone
-    "UTF-8"    # 2021 web
+    "UTF-8",   # 2021 web
+    "UTF-8"    # 2025 web
   ),
   type = c(
     "Survey",     # 1965
@@ -129,7 +133,8 @@ ces_datasets <- tibble(
     "Web/Phone",  # 2015 combo
     "Web",        # 2019 web
     "Phone",      # 2019 phone
-    "Web"         # 2021 web
+    "Web",        # 2021 web
+    "Web"         # 2025 web
   ),
   description = c(
     "1965 Canadian Election Study",
@@ -153,7 +158,8 @@ ces_datasets <- tibble(
     "2015 Canadian Election Study - Combined Online and Phone",
     "2019 Canadian Election Study - Online Survey",
     "2019 Canadian Election Study - Phone Survey",
-    "2021 Canadian Election Study - Online Survey"
+    "2021 Canadian Election Study - Online Survey",
+    "2025 Canadian Election Study - Online Survey"
   ),
   codebook_url = c(
     "https://borealisdata.ca/api/access/datafile/563560", # 1965
@@ -177,7 +183,8 @@ ces_datasets <- tibble(
     "https://borealisdata.ca/api/access/datafile/563239", # 2015 combo
     "https://borealisdata.ca/api/access/datafile/563276", # 2019 web
     "https://borealisdata.ca/api/access/datafile/761212", # 2019 phone
-    "https://borealisdata.ca/api/access/datafile/658980"  # 2021 web
+    "https://borealisdata.ca/api/access/datafile/658980", # 2021 web
+    "https://dataverse.harvard.edu/api/access/datafile/13958998"  # 2025 web codebook
   ),
   citation = c(
     "TO CITE THIS SURVEY FILE: Converse, P, Meisel, J, Pinard, M, Regenstreif, P and Schwartz, M. 1966. Canadian Election Survey, 1965. [Microdata File]. Inter-University Consortium for Political and Social Research, University of Michigan, Ann Arbor MI [Producer].\nLINK: http://odesi2.scholarsportal.info/webview/index.jsp?v=2&submode=abstract&study=http%3A%2F%2F142.150.190.128%3A80%2Fobj%2FfStudy%2FCES-E-1965&mode=documentation&top=yes", # 1965
@@ -222,7 +229,9 @@ ces_datasets <- tibble(
     
     "TO CITE THIS SURVEY FILE:\n- Stephenson, Laura B; Harell, Allison; Rubenson, Daniel; Loewen, Peter John, 2020, '2019 Canadian Election Study - Phone Survey', https://doi.org/10.7910/DVN/8RHLG1, Harvard Dataverse, V1, UNF:6:eyR28qaoYlHj9qwPWZmmVQ== [fileUNF]\n- Stephenson, Laura, Allison Harrel, Daniel Rubenson and Peter Loewen. Forthcoming. 'Measuring Preferences and Behaviour in the 2019 Canadian Election Study,' Canadian Journal of Political Science.\nLINK: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/8RHLG1", # 2019 phone
     
-    "TO CITE THIS SURVEY FILE:\n- Stephenson, Laura B.; Harell, Allison; Rubenson, Daniel; Loewen, Peter John, 2023, 'Canadian Election Study 2021', https://doi.org/10.5683/SP3/MMXTFC, Borealis, V5," # 2021
+    "TO CITE THIS SURVEY FILE:\n- Stephenson, Laura B.; Harell, Allison; Rubenson, Daniel; Loewen, Peter John, 2023, 'Canadian Election Study 2021', https://doi.org/10.5683/SP3/MMXTFC, Borealis, V5,", # 2021
+
+    "TO CITE THIS SURVEY FILE:\n- Stephenson, Laura B.; Harell, Allison; Rubenson, Daniel, 2026, '2025 Canadian Election Study (CES)', https://doi.org/10.7910/DVN/2YAQ8D, Harvard Dataverse, V1\nLINK: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/2YAQ8D" # 2025
   )
 )
 
