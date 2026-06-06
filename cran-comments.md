@@ -16,17 +16,15 @@ This is a minor release (1.1.0) of the ces package.
 
 ## Test environments
 
-* Local: Arch Linux, R 4.6.0 -- R CMD check --as-cran: 0 errors | 0 warnings | 0 notes
-
-<!-- MAINTAINER TODO before submitting (remove this comment once done):
-     run devtools::check_win_devel() and devtools::check_win_release(),
-     then list R-devel and R-release results here. -->
+* Local: Arch Linux, R 4.6.0
+* R-hub (GitHub Actions): Ubuntu Linux (R-devel) and Windows (R-devel)
 
 ## R CMD check results
 
 0 errors | 0 warnings | 0 notes
 
-`R CMD check --as-cran` passed cleanly (Status: OK) on the local environment.
+`R CMD check --as-cran` passed cleanly (Status: OK) on the local environment,
+and the R-hub Ubuntu (R-devel) and Windows (R-devel) checks passed.
 All examples that access the internet are wrapped in `\donttest{}`; tests that
 require network resources skip gracefully when those resources are unavailable.
 
